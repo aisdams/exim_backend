@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  customer_code String @id @default(uuid())
+  partner_name String
+  unit String
+  
+  Quotation Quotation[]
+  @@map(name: "customer")
+}
+
+model Port {
+  port_code String @id @default(uuid())
+  port_name String
+  caption String
+  
+  Quotation Quotation[]
+  @@map(name: "port")
+}
+
+model Quotation {
+  quo_no String @id @default(uuid())
+  sales String
+  subject String
+  attn String
+  type String
+  delivery String
+  kurs String
+  status String
+
+  partner_name Customer  @relation(fields: [customer_code], references: [customer_code])
+  customer_code String           @db.VarChar(255)
+
+  port_name Port @relation(fields: [port_code], references: [port_code])
+  port_code String           @db.VarChar(255)
+
+
+  @@map(name: "quotation")
+}
+
+model Cost {
+  item_cost String @id @default(uuid())
+  item_name String
+  qty String
+  unit String
+  mata_uang MataUang    @default(IDR)
+  amount String
+  note String
+}
+
+enum MataUang {
+  IDR
+  USD
+}
