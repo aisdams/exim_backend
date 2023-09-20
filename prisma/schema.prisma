@@ -17,6 +17,9 @@ model Customer {
   
   Quotation Quotation[]
   @@map(name: "customer")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Port {
@@ -26,6 +29,24 @@ model Port {
   
   Quotation Quotation[]
   @@map(name: "port")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Cost {
+  item_cost String @id @default(uuid())
+  item_name String
+  qty String
+  unit String
+  mata_uang MataUang    @default(IDR)
+  amount String
+  note String
+
+  Quotation Quotation[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Quotation {
@@ -36,26 +57,34 @@ model Quotation {
   type String
   delivery String
   kurs String
-  status String
+  status String      @default("PROCESS")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   partner_name Customer  @relation(fields: [customer_code], references: [customer_code])
-  customer_code String           @db.VarChar(255)
-
+  customer_code String    @db.VarChar(255)
+  cost Cost @relation(fields: [item_cost], references: [item_cost])
+  item_cost String   @db.VarChar(255)
   port_name Port @relation(fields: [port_code], references: [port_code])
-  port_code String           @db.VarChar(255)
+  port_code String    @db.VarChar(255)
 
-
+  JobOrder JobOrder[]
   @@map(name: "quotation")
 }
 
-model Cost {
-  item_cost String @id @default(uuid())
-  item_name String
-  qty String
-  unit String
-  mata_uang MataUang    @default(IDR)
-  amount String
-  note String
+model JobOrder {
+  jo_no String @id @default(uuid())
+  jo_date String
+  hbl String
+  mbl String
+  etd String
+  eta String
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  quotation Quotation @relation(fields: [quo_no], references: [quo_no])
+  quo_no String     @db.VarChar(255)
 }
 
 enum MataUang {
