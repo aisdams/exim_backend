@@ -95,8 +95,8 @@ async function main() {
   });
 
   try {
-    app.listen({ port: 8080 });
-    console.log(`Server ready at http://localhost:8080`);
+    app.listen({ port: 8089 });
+    console.log(`Server ready at http://localhost:8089`);
   } catch (e) {
     console.error(e);
     process.exit(1);

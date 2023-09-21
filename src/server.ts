@@ -6,8 +6,12 @@ import cors from 'cors';
 import AppError from './utils/app-error';
 import { globalError } from './utils/global-error';
 
-//! Fasilitas Hotel
+//! Quotation
 import quotationreRouter from './routes/quotation.routes';
+// Cost
+import costRouter from './routes/cost.routes';
+// Customer
+import customerRouter from './routes/customer.routes';
 
 function buildServer() {
   const app = express();
@@ -35,12 +39,15 @@ function buildServer() {
   //! ROUTES
   //* Quotation
   app.use('/api/quotation', quotationreRouter);
+  // Cost
+  app.use('/api/cost', costRouter);
+  app.use('/api/customer', customerRouter);
 
   //! Testing
   app.get('/', (_, res: Response) => {
     res.status(200).json({
       status: 'Success',
-      message: 'Welcome to WEB WESTORE',
+      message: 'Success Welcome Exim Nello',
     });
   });
 

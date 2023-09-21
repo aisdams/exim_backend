@@ -20,13 +20,20 @@ import multer from 'multer';
 const router = express.Router();
 const upload = multer();
 
-// router.use(deserializeUser, requireUser);
-
-// router.get('/', verifyJwt, getInboundsHandler);
+router.get('/', getQuotationsHandler);
 router.get('/:quo_no', getQuotationHandler);
 router.post('/', validate(createQuotationSchema), createQuotationHandler);
-router.put('/:quo_no', validate(updateQuotationSchema), updateQuotationHandler);
+router.put(
+  '/:quo_no',
+
+  validate(updateQuotationSchema),
+  updateQuotationHandler
+);
+router.delete(
+  '/:quo_no',
+
+  deleteQuotationHandler
+);
 router.delete('/', deleteQuotationsHandler);
-router.delete('/:quo_no', deleteQuotationHandler);
 
 export default router;

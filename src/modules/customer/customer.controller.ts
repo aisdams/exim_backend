@@ -1,20 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const createQuotation = async (req: Request, res: Request) => {};
 import { NextFunction, Request, Response, query } from 'express';
 import * as path from 'path';
 import {
-  generateQuotationCode,
-  createQuotationn,
-  getQuotation,
-  getQuotations,
-  updateQuotation,
-  deleteAllQuotation,
-  deleteQuotation,
-} from './quotation.service';
+  generateCustomerCode,
+  createCustomer,
+  getCustomer,
+  getCustomers,
+  updateCustomer,
+  deleteAllCustomer,
+  deleteCustomer,
+} from './customer.service';
 
-//! Tambah Quotation
-export const createQuotationHandler = async (
+//! Tambah Customer
+export const createCustomerHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -26,41 +25,41 @@ export const createQuotationHandler = async (
 
     const query = {};
 
-    const quo_no = await generateQuotationCode(query);
-    data.quo_no = quo_no;
+    const customer_code = await generateCustomerCode(query);
+    data.customer_code = customer_code;
 
-    const quotation = await createQuotationn(data);
+    const customer = await createCustomer(data);
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses create data quotation',
-      data: quotation,
+      message: 'Sukses create data customer',
+      data: customer,
     });
   } catch (err: any) {
     next(err);
   }
 };
 
-//! Get quotation
-export const getQuotationHandler = async (
+//! Get customer
+export const getCustomerHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const quotation = await getQuotation(req.params.quo_no);
+    const customer = await getCustomer(req.params.customer_code);
 
-    if (!quotation) {
+    if (!customer) {
       return res.status(404).json({
         status: 'not found',
-        message: 'Quotation with that Code not found',
+        message: 'Customer with that Code not found',
       });
     }
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses get data quotation',
-      data: quotation,
+      message: 'Sukses get data Customer',
+      data: customer,
     });
   } catch (err: any) {
     next(err);
@@ -68,20 +67,20 @@ export const getQuotationHandler = async (
 };
 
 //! Get quotatin
-export const getQuotationsHandler = async (
+export const getCustomersHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const query = req.query;
-    const quotations = await getQuotations(query);
+    const customers = await getCustomers(query);
 
     res.status(200).json({
       status: 'success',
       message: 'Sukses get data quotations',
-      data: quotations.data,
-      pagination: quotations.pagination,
+      data: customers.data,
+      pagination: customers.pagination,
     });
   } catch (err: any) {
     next(err);
@@ -89,62 +88,62 @@ export const getQuotationsHandler = async (
 };
 
 //! Update quotaion
-export const updateQuotationHandler = async (
+export const updateCustomerHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const quo_no = req.params.quo_no;
+    const customer_code = req.params.customer_code;
     const data = req.body;
 
     //* remove password confirmation
     delete data.passwordConfirm;
 
-    const quotation = await getQuotation(quo_no);
+    const customer = await getCustomer(customer_code);
 
-    if (!quotation) {
+    if (!customer) {
       return res.status(404).json({
         status: 'not found',
         message: 'Quotation with that Code not found',
       });
     }
 
-    const updatedQuotation = await updateQuotation(quo_no, data);
+    const updatedCustomer = await updateCustomer(customer_code, data);
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses update data quotation',
-      data: updatedQuotation,
+      message: 'Sukses update data customer',
+      data: updatedCustomer,
     });
   } catch (err: any) {
     next(err);
   }
 };
 
-//! Delete quotation by id
-export const deleteQuotationHandler = async (
+//! Delete customer by id
+export const deleteCustomerHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const quo_no = req.params.quo_no;
+    const customer_code = req.params.customer_code;
 
-    const quotation = await getQuotation(quo_no);
+    const customer = await getCustomer(customer_code);
 
-    if (!quotation) {
+    if (!customer) {
       return res.status(404).json({
         status: 'not found',
-        message: 'Quotation with that Code not found',
+        message: 'Customer with that Code not found',
       });
     }
 
-    await deleteQuotation(quo_no);
+    await deleteCustomer(customer_code);
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses delete data quotation',
+      message: 'Sukses delete data customer',
       data: null,
     });
   } catch (err: any) {
@@ -152,18 +151,18 @@ export const deleteQuotationHandler = async (
   }
 };
 
-//! Delete quotation
-export const deleteQuotationsHandler = async (
+//! Delete customer
+export const deleteCustomersHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    await deleteAllQuotation();
+    await deleteAllCustomer();
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses delete data quotation',
+      message: 'Sukses delete data customer',
       data: null,
     });
   } catch (err: any) {

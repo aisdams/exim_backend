@@ -4,17 +4,17 @@ const createQuotation = async (req: Request, res: Request) => {};
 import { NextFunction, Request, Response, query } from 'express';
 import * as path from 'path';
 import {
-  generateQuotationCode,
-  createQuotationn,
-  getQuotation,
-  getQuotations,
-  updateQuotation,
-  deleteAllQuotation,
-  deleteQuotation,
-} from './quotation.service';
+  generateItemCost,
+  createCost,
+  getCost,
+  getCosts,
+  updateCost,
+  deleteAllCost,
+  deleteCost,
+} from './cost.service';
 
-//! Tambah Quotation
-export const createQuotationHandler = async (
+//! Tambah outbound
+export const createCostHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -26,15 +26,15 @@ export const createQuotationHandler = async (
 
     const query = {};
 
-    const quo_no = await generateQuotationCode(query);
-    data.quo_no = quo_no;
+    const item_cost = await generateItemCost(query);
+    data.item_cost = item_cost;
 
-    const quotation = await createQuotationn(data);
+    const cost = await createCost(data);
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses create data quotation',
-      data: quotation,
+      message: 'Sukses create data cost',
+      data: cost,
     });
   } catch (err: any) {
     next(err);
@@ -42,44 +42,44 @@ export const createQuotationHandler = async (
 };
 
 //! Get quotation
-export const getQuotationHandler = async (
+export const getCostHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const quotation = await getQuotation(req.params.quo_no);
+    const cost = await getCost(req.params.item_cost);
 
-    if (!quotation) {
+    if (!cost) {
       return res.status(404).json({
         status: 'not found',
-        message: 'Quotation with that Code not found',
+        message: 'Cost with that Code not found',
       });
     }
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses get data quotation',
-      data: quotation,
+      message: 'Sukses get data cost',
+      data: cost,
     });
   } catch (err: any) {
     next(err);
   }
 };
 
-//! Get quotatin
-export const getQuotationsHandler = async (
+//! Get outbounds
+export const getCostsHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const query = req.query;
-    const quotations = await getQuotations(query);
+    const quotations = await getCosts(query);
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses get data quotations',
+      message: 'Sukses get data cost',
       data: quotations.data,
       pagination: quotations.pagination,
     });
@@ -88,33 +88,33 @@ export const getQuotationsHandler = async (
   }
 };
 
-//! Update quotaion
-export const updateQuotationHandler = async (
+//! Update Cost
+export const updateCostHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const quo_no = req.params.quo_no;
+    const item_cost = req.params.item_cost;
     const data = req.body;
 
     //* remove password confirmation
     delete data.passwordConfirm;
 
-    const quotation = await getQuotation(quo_no);
+    const quotation = await getCost(item_cost);
 
     if (!quotation) {
       return res.status(404).json({
         status: 'not found',
-        message: 'Quotation with that Code not found',
+        message: 'cost with that Code not found',
       });
     }
 
-    const updatedQuotation = await updateQuotation(quo_no, data);
+    const updatedQuotation = await updateCost(item_cost, data);
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses update data quotation',
+      message: 'Sukses update data cost',
       data: updatedQuotation,
     });
   } catch (err: any) {
@@ -123,28 +123,28 @@ export const updateQuotationHandler = async (
 };
 
 //! Delete quotation by id
-export const deleteQuotationHandler = async (
+export const deleteCostHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const quo_no = req.params.quo_no;
+    const item_cost = req.params.item_cost;
 
-    const quotation = await getQuotation(quo_no);
+    const cost = await getCost(item_cost);
 
-    if (!quotation) {
+    if (!cost) {
       return res.status(404).json({
         status: 'not found',
-        message: 'Quotation with that Code not found',
+        message: 'Cost with that Code not found',
       });
     }
 
-    await deleteQuotation(quo_no);
+    await deleteCost(item_cost);
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses delete data quotation',
+      message: 'Sukses delete data cost',
       data: null,
     });
   } catch (err: any) {
@@ -152,18 +152,18 @@ export const deleteQuotationHandler = async (
   }
 };
 
-//! Delete quotation
-export const deleteQuotationsHandler = async (
+//! Delete cost
+export const deleteCostsHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    await deleteAllQuotation();
+    await deleteAllCost();
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses delete data quotation',
+      message: 'Sukses delete data cost',
       data: null,
     });
   } catch (err: any) {

@@ -3,7 +3,7 @@ import prisma from '../../utils/prisma';
 import { createQuotationInput, UpdateQuotationInput } from './quotation.shecma';
 import { ParsedQs } from 'qs';
 
-//! Generate kode outbound delivery
+//! Generate kode Quotation No
 export const generateQuotationCode = async (query: ParsedQs) => {
   //* get last data
   const lastData = await prisma.quotation.findFirst({
@@ -21,12 +21,18 @@ export const generateQuotationCode = async (query: ParsedQs) => {
   let id_u = 1;
 
   if (lastData !== null) {
-    const id = parseInt(lastData.quo_no.slice(-7));
-    id_u = id + 1;
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    const lastYearInData = lastData.quo_no.slice(3, 5);
+
+    if (currentYear === lastYearInData) {
+      const id = parseInt(lastData.quo_no.slice(-5)) + 1;
+      id_u = id;
+    }
   }
 
-  const idString = id_u.toString().padStart(7, '0');
-  const quo_no = `QUO${idString}`;
+  const idString = id_u.toString().padStart(5, '0');
+  const currentYear = new Date().getFullYear().toString().slice(-2);
+  const quo_no = `QUO-${currentYear}${idString}`;
 
   return quo_no;
 };
@@ -69,8 +75,6 @@ export async function getQuotations(query: any) {
       query.status != null && !Array.isArray(query.status)
         ? query.status.toUpperCase()
         : undefined,
-    title:
-      (query.title as string) != null ? (query.title as string) : undefined,
   };
 
   if (Array.isArray(query.status)) {
@@ -108,7 +112,7 @@ export async function getQuotations(query: any) {
   return quotations;
 }
 
-//! Update data outbound by Primary Key
+//! Update data quotation by Primary Key
 export async function updateQuotation(
   quo_no: string,
   data: UpdateQuotationInput
@@ -121,13 +125,13 @@ export async function updateQuotation(
   });
 }
 
-//! Hapus data outbound by id
+//! Hapus data quotation by id
 export async function deleteQuotation(quo_no: string) {
   //* Start transaction
   return await prisma.$transaction(async (tx) => {
-    // await tx.outbound_detail.deleteMany({
+    // await tx.quotation_detail.deleteMany({
     //   where: {
-    //     outbound_code: outbound_code,
+    //     quotation_code: quotation_code,
     //   },
     // });
 
@@ -139,7 +143,7 @@ export async function deleteQuotation(quo_no: string) {
   });
 }
 
-//! Hapus all data outbound
+//! Hapus all data quotation
 export async function deleteAllQuotation() {
   //* Start transaction
   return await prisma.$transaction(async (tx) => {
