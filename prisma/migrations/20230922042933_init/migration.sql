@@ -44,6 +44,8 @@ CREATE TABLE `quotation` (
     `type` VARCHAR(191) NOT NULL,
     `delivery` VARCHAR(191) NOT NULL,
     `kurs` VARCHAR(191) NOT NULL,
+    `loading` VARCHAR(191) NOT NULL,
+    `discharge` VARCHAR(191) NOT NULL,
     `status` VARCHAR(191) NOT NULL DEFAULT 'PROCESS',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -70,8 +72,26 @@ CREATE TABLE `JobOrder` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `quo_no` VARCHAR(255) NOT NULL,
+    `customer_code` VARCHAR(255) NOT NULL,
+    `port_code` VARCHAR(255) NOT NULL,
 
     PRIMARY KEY (`jo_no`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `JOC` (
+    `joc_no` VARCHAR(191) NOT NULL,
+    `no_mbl` VARCHAR(191) NOT NULL,
+    `status` VARCHAR(191) NOT NULL,
+    `vessel` VARCHAR(191) NOT NULL,
+    `createdBy` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `quo_no` VARCHAR(255) NOT NULL,
+    `jo_no` VARCHAR(255) NOT NULL,
+    `customer_code` VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (`joc_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
@@ -85,3 +105,18 @@ ALTER TABLE `quotation` ADD CONSTRAINT `quotation_port_code_fkey` FOREIGN KEY (`
 
 -- AddForeignKey
 ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_quo_no_fkey` FOREIGN KEY (`quo_no`) REFERENCES `quotation`(`quo_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `JOC` ADD CONSTRAINT `JOC_quo_no_fkey` FOREIGN KEY (`quo_no`) REFERENCES `quotation`(`quo_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `JOC` ADD CONSTRAINT `JOC_jo_no_fkey` FOREIGN KEY (`jo_no`) REFERENCES `JobOrder`(`jo_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `JOC` ADD CONSTRAINT `JOC_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -16,6 +16,8 @@ model Customer {
   unit String
   
   Quotation Quotation[]
+  JobOrder JobOrder[]
+  JOC JOC[]
   @@map(name: "customer")
   
   createdAt DateTime @default(now())
@@ -28,6 +30,7 @@ model Port {
   caption String
   
   Quotation Quotation[]
+  JobOrder JobOrder[]
   @@map(name: "port")
   
   createdAt DateTime @default(now())
@@ -57,18 +60,21 @@ model Quotation {
   type String
   delivery String
   kurs String
+  loading String
+  discharge String
   status String      @default("PROCESS")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  partner_name Customer  @relation(fields: [customer_code], references: [customer_code])
+  customer Customer  @relation(fields: [customer_code], references: [customer_code])
   customer_code String    @db.VarChar(255)
   cost Cost @relation(fields: [item_cost], references: [item_cost])
   item_cost String   @db.VarChar(255)
-  port_name Port @relation(fields: [port_code], references: [port_code])
+  port Port @relation(fields: [port_code], references: [port_code])
   port_code String    @db.VarChar(255)
 
   JobOrder JobOrder[]
+  JOC JOC[]
   @@map(name: "quotation")
 }
 
@@ -89,6 +95,29 @@ model JobOrder {
 
   quotation Quotation @relation(fields: [quo_no], references: [quo_no])
   quo_no String     @db.VarChar(255)
+  customer Customer  @relation(fields: [customer_code], references: [customer_code])
+  customer_code String    @db.VarChar(255)
+  port Port @relation(fields: [port_code], references: [port_code])
+  port_code String    @db.VarChar(255)
+
+  JOC JOC[]
+}
+
+model JOC {
+  joc_no String @id @default(uuid())
+  no_mbl String
+  status String
+  vessel String
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  quotation Quotation @relation(fields: [quo_no], references: [quo_no])
+  quo_no String     @db.VarChar(255)
+  jobOrder JobOrder @relation(fields: [jo_no], references: [jo_no])
+  jo_no String     @db.VarChar(255)
+  customer Customer  @relation(fields: [customer_code], references: [customer_code])
+  customer_code String    @db.VarChar(255)
 }
 
 enum MataUang {

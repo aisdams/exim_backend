@@ -24,6 +24,21 @@ export const createQuotationSchema = object({
     status: string({
       required_error: 'status harus di isi',
     }),
+    loading: string({
+      required_error: 'loading harus di isi',
+    }),
+    discharge: string({
+      required_error: 'discharge harus di isi',
+    }),
+    customer_code: string({
+      required_error: 'customer_code harus di isi',
+    }),
+    item_cost: string({
+      required_error: 'item_cost harus di isi',
+    }),
+    port_code: string({
+      required_error: 'port_code harus di isi',
+    }),
   }),
 });
 
@@ -49,6 +64,12 @@ export const updateQuotationSchema = object({
     }),
     status: string({
       required_error: 'status harus di isi',
+    }),
+    loading: string({
+      required_error: 'loading harus di isi',
+    }),
+    discharge: string({
+      required_error: 'discharge harus di isi',
     }),
   }),
 });

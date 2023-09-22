@@ -26,6 +26,15 @@ export const createJobOrderSchema = object({
     name_of_goods: string({
       required_error: 'name_of_goods harus di isi',
     }),
+    quo_no: string({
+      required_error: 'quo_no harus di isi',
+    }),
+    customer_code: string({
+      required_error: 'customer_code harus di isi',
+    }),
+    port_code: string({
+      required_error: 'port_code harus di isi',
+    }),
   }),
 });
 
