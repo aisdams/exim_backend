@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const createQuotation = async (req: Request, res: Request) => {};
 import { NextFunction, Request, Response, query } from 'express';
 import * as path from 'path';
 import {
@@ -13,7 +12,7 @@ import {
   deleteCost,
 } from './cost.service';
 
-//! Tambah outbound
+//! Tambah Cost
 export const createCostHandler = async (
   req: Request,
   res: Response,
@@ -41,7 +40,7 @@ export const createCostHandler = async (
   }
 };
 
-//! Get quotation
+//! Get cost
 export const getCostHandler = async (
   req: Request,
   res: Response,
@@ -67,7 +66,7 @@ export const getCostHandler = async (
   }
 };
 
-//! Get outbounds
+//! Get costs
 export const getCostsHandler = async (
   req: Request,
   res: Response,
@@ -75,13 +74,13 @@ export const getCostsHandler = async (
 ) => {
   try {
     const query = req.query;
-    const quotations = await getCosts(query);
+    const costs = await getCosts(query);
 
     res.status(200).json({
       status: 'success',
       message: 'Sukses get data cost',
-      data: quotations.data,
-      pagination: quotations.pagination,
+      data: costs.data,
+      pagination: costs.pagination,
     });
   } catch (err: any) {
     next(err);
@@ -98,31 +97,30 @@ export const updateCostHandler = async (
     const item_cost = req.params.item_cost;
     const data = req.body;
 
-    //* remove password confirmation
     delete data.passwordConfirm;
 
-    const quotation = await getCost(item_cost);
+    const cost = await getCost(item_cost);
 
-    if (!quotation) {
+    if (!cost) {
       return res.status(404).json({
         status: 'not found',
         message: 'cost with that Code not found',
       });
     }
 
-    const updatedQuotation = await updateCost(item_cost, data);
+    const updatedCost = await updateCost(item_cost, data);
 
     res.status(200).json({
       status: 'success',
       message: 'Sukses update data cost',
-      data: updatedQuotation,
+      data: updatedCost,
     });
   } catch (err: any) {
     next(err);
   }
 };
 
-//! Delete quotation by id
+//! Delete cost by id
 export const deleteCostHandler = async (
   req: Request,
   res: Response,

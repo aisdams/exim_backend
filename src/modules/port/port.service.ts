@@ -111,12 +111,6 @@ export async function updatePort(port_code: string, data: UpdatePortInput) {
 export async function deletePort(port_code: string) {
   //* Start transaction
   return await prisma.$transaction(async (tx) => {
-    // await tx.port_detail.deleteMany({
-    //   where: {
-    //     port_code: port_code,
-    //   },
-    // });
-
     await tx.port.deleteMany({
       where: {
         port_code: port_code,

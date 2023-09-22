@@ -16,7 +16,6 @@ export const generateItemCost = async (query: ParsedQs) => {
       },
     ],
   });
-
   //* generate code
   let id_u = 1;
 
@@ -53,7 +52,7 @@ export async function createCost(data: Prisma.CostCreateInput): Promise<Cost> {
   }
 }
 
-//! Get data quotation by id
+//! Get data cost by id
 export async function getCost(item_cost: string) {
   return await prisma.cost.findUnique({
     where: {
@@ -62,7 +61,7 @@ export async function getCost(item_cost: string) {
   });
 }
 
-//! Get all data quotation
+//! Get all data cost
 export async function getCosts(query: any) {
   let where: any = {
     item_cost:
@@ -97,7 +96,7 @@ export async function getCosts(query: any) {
   return costs;
 }
 
-//! Update data outbound by Primary Key
+//! Update data cost by Primary Key
 export async function updateCost(item_cost: string, data: UpdateCostInput) {
   return await prisma.cost.update({
     where: {
@@ -107,16 +106,10 @@ export async function updateCost(item_cost: string, data: UpdateCostInput) {
   });
 }
 
-//! Hapus data outbound by id
+//! Hapus data cost by id
 export async function deleteCost(item_cost: string) {
   //* Start transaction
   return await prisma.$transaction(async (tx) => {
-    // await tx.outbound_detail.deleteMany({
-    //   where: {
-    //     outbound_code: outbound_code,
-    //   },
-    // });
-
     await tx.cost.deleteMany({
       where: {
         item_cost: item_cost,
@@ -125,7 +118,7 @@ export async function deleteCost(item_cost: string) {
   });
 }
 
-//! Hapus all data outbound
+//! Hapus all data cost
 export async function deleteAllCost() {
   //* Start transaction
   return await prisma.$transaction(async (tx) => {

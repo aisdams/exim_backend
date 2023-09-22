@@ -66,7 +66,7 @@ export const getCustomerHandler = async (
   }
 };
 
-//! Get quotatin
+//! Get customer
 export const getCustomersHandler = async (
   req: Request,
   res: Response,
@@ -78,7 +78,7 @@ export const getCustomersHandler = async (
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses get data quotations',
+      message: 'Sukses get data customers',
       data: customers.data,
       pagination: customers.pagination,
     });
@@ -87,7 +87,7 @@ export const getCustomersHandler = async (
   }
 };
 
-//! Update quotaion
+//! Update customer
 export const updateCustomerHandler = async (
   req: Request,
   res: Response,

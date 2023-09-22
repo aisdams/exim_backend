@@ -39,7 +39,7 @@ export const generateQuotationCode = async (query: ParsedQs) => {
 
 //! Tambah data quotation
 export async function createQuotationn(
-  data: Prisma.QuotationCreateInput // Menggunakan tipe yang sesuai dengan Prisma
+  data: Prisma.QuotationCreateInput
 ): Promise<Quotation> {
   try {
     const quotation = await prisma.quotation.create({
@@ -47,11 +47,9 @@ export async function createQuotationn(
     });
     return quotation;
   } catch (error) {
-    // Periksa jika tipe error adalah Error
     if (error instanceof Error) {
       throw new Error(`Gagal membuat Quotation: ${error.message}`);
     } else {
-      // Jika tipe error bukan Error, tangani sesuai kebutuhan Anda
       throw new Error('Terjadi kesalahan saat membuat Quotation.');
     }
   }
@@ -129,12 +127,6 @@ export async function updateQuotation(
 export async function deleteQuotation(quo_no: string) {
   //* Start transaction
   return await prisma.$transaction(async (tx) => {
-    // await tx.quotation_detail.deleteMany({
-    //   where: {
-    //     quotation_code: quotation_code,
-    //   },
-    // });
-
     await tx.quotation.deleteMany({
       where: {
         quo_no: quo_no,

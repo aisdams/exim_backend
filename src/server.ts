@@ -12,6 +12,12 @@ import quotationreRouter from './routes/quotation.routes';
 import costRouter from './routes/cost.routes';
 // Customer
 import customerRouter from './routes/customer.routes';
+// Port
+import portRouter from './routes/port.routes';
+// Job Order
+import jobOrderRouter from './routes/jobOrder.routes';
+// JOC
+import jocRouter from './routes/joc.routes';
 
 function buildServer() {
   const app = express();
@@ -41,7 +47,14 @@ function buildServer() {
   app.use('/api/quotation', quotationreRouter);
   // Cost
   app.use('/api/cost', costRouter);
+  // Customer
   app.use('/api/customer', customerRouter);
+  // Port
+  app.use('/api/port', portRouter);
+  // Job Order
+  app.use('/api/jo', jobOrderRouter);
+  // JOC
+  app.use('/api/joc', jocRouter);
 
   //! Testing
   app.get('/', (_, res: Response) => {

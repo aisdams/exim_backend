@@ -116,12 +116,6 @@ export async function updateCustomer(
 export async function deleteCustomer(customer_code: string) {
   //* Start transaction
   return await prisma.$transaction(async (tx) => {
-    // await t_detail.deleteMany({
-    //   where: {
-    //   _code_code,
-    //   },
-    // });
-
     await tx.customer.deleteMany({
       where: {
         customer_code: customer_code,

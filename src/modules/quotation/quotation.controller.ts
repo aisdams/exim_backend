@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const createQuotation = async (req: Request, res: Request) => {};
 import { NextFunction, Request, Response, query } from 'express';
 import * as path from 'path';
 import {

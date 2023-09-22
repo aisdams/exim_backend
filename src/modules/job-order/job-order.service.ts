@@ -104,12 +104,6 @@ export async function updateJobOrder(jo_no: string, data: UpdateJobOrderInput) {
 //! Hapus data jobOrder by id
 export async function deleteJobOrder(jo_no: string) {
   return await prisma.$transaction(async (tx) => {
-    // await tx.outbound_detail.deleteMany({
-    //   where: {
-    //     outbound_code: outbound_code,
-    //   },
-    // });
-
     await tx.jobOrder.deleteMany({
       where: {
         jo_no: jo_no,

@@ -12,10 +12,7 @@ import {
   updateCostSchema,
 } from '../modules/cost/cost.schema';
 import { validate } from '../middleware/validate';
-//import { deserializeUser } from "../../middleware/deserializeUser";
-// import { requireUser } from '../../../middleware/requireUser';
 import multer from 'multer';
-// import { verifyJwt } from '../../../middleware/verify-jwt.middleware';
 
 const router = express.Router();
 const upload = multer();
