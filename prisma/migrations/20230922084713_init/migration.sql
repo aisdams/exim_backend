@@ -47,11 +47,11 @@ CREATE TABLE `quotation` (
     `loading` VARCHAR(191) NOT NULL,
     `discharge` VARCHAR(191) NOT NULL,
     `status` VARCHAR(191) NOT NULL DEFAULT 'PROCESS',
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
     `customer_code` VARCHAR(255) NOT NULL,
     `item_cost` VARCHAR(255) NOT NULL,
     `port_code` VARCHAR(255) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`quo_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -69,11 +69,11 @@ CREATE TABLE `JobOrder` (
     `volume` VARCHAR(191) NOT NULL,
     `name_of_goods` VARCHAR(191) NOT NULL,
     `createdBy` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
     `quo_no` VARCHAR(255) NOT NULL,
     `customer_code` VARCHAR(255) NOT NULL,
     `port_code` VARCHAR(255) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`jo_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -84,12 +84,14 @@ CREATE TABLE `JOC` (
     `no_mbl` VARCHAR(191) NOT NULL,
     `status` VARCHAR(191) NOT NULL,
     `vessel` VARCHAR(191) NOT NULL,
-    `createdBy` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `no_container` VARCHAR(191) NOT NULL,
+    `general_purpose` VARCHAR(191) NOT NULL,
     `quo_no` VARCHAR(255) NOT NULL,
     `jo_no` VARCHAR(255) NOT NULL,
     `customer_code` VARCHAR(255) NOT NULL,
+    `createdBy` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`joc_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
