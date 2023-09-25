@@ -15,8 +15,8 @@ model Customer {
   partner_name String
   unit String
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   Quotation Quotation[]
   JobOrder JobOrder[]
@@ -31,8 +31,8 @@ model Port {
   caption String
   
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   Quotation Quotation[]
   JobOrder JobOrder[]
@@ -50,8 +50,8 @@ model Cost {
   amount String
   note String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   Quotation Quotation[]
 }
 
@@ -74,8 +74,8 @@ model Quotation {
   port Port @relation(fields: [port_code], references: [port_code])
   port_code String    @db.VarChar(255)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   JobOrder JobOrder[]
   JOC JOC[]
   @@map(name: "quotation")
@@ -101,8 +101,8 @@ model JobOrder {
   port Port @relation(fields: [port_code], references: [port_code])
   port_code String    @db.VarChar(255)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   JOC JOC[]
 }
 
@@ -122,8 +122,8 @@ model JOC {
   customer_code String    @db.VarChar(255)
   
   createdBy String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 enum MataUang {

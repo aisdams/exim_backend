@@ -32,7 +32,7 @@ export const generatePortCode = async (query: ParsedQs) => {
 
   const idString = id_u.toString().padStart(5, '0');
   const currentYear = new Date().getFullYear().toString().slice(-2);
-  const port_code = `Port-${currentYear}${idString}`;
+  const port_code = `PORT-${currentYear}${idString}`;
 
   return port_code;
 };

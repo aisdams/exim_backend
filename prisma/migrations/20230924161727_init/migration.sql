@@ -3,8 +3,8 @@ CREATE TABLE `customer` (
     `customer_code` VARCHAR(191) NOT NULL,
     `partner_name` VARCHAR(191) NOT NULL,
     `unit` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`customer_code`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -14,8 +14,8 @@ CREATE TABLE `port` (
     `port_code` VARCHAR(191) NOT NULL,
     `port_name` VARCHAR(191) NOT NULL,
     `caption` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`port_code`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -29,8 +29,8 @@ CREATE TABLE `Cost` (
     `mata_uang` ENUM('IDR', 'USD') NOT NULL DEFAULT 'IDR',
     `amount` VARCHAR(191) NOT NULL,
     `note` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`item_cost`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -50,8 +50,8 @@ CREATE TABLE `quotation` (
     `customer_code` VARCHAR(255) NOT NULL,
     `item_cost` VARCHAR(255) NOT NULL,
     `port_code` VARCHAR(255) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`quo_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -72,8 +72,8 @@ CREATE TABLE `JobOrder` (
     `quo_no` VARCHAR(255) NOT NULL,
     `customer_code` VARCHAR(255) NOT NULL,
     `port_code` VARCHAR(255) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`jo_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -90,8 +90,8 @@ CREATE TABLE `JOC` (
     `jo_no` VARCHAR(255) NOT NULL,
     `customer_code` VARCHAR(255) NOT NULL,
     `createdBy` VARCHAR(191) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
 
     PRIMARY KEY (`joc_no`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
