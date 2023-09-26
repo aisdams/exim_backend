@@ -5,30 +5,35 @@ import { ParsedQs } from 'qs';
 
 //! Generate kode Job Order
 export const generateJobOrderCode = async (query: ParsedQs) => {
-  //* get last data
-  const lastData = await prisma.jobOrder.findFirst({
-    select: {
-      jo_no: true,
-    },
-    orderBy: [
-      {
-        createdAt: 'desc',
+  try {
+    //* get last data
+    const lastData = await prisma.jobOrder.findFirst({
+      select: {
+        jo_no: true,
       },
-    ],
-  });
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
 
-  //* generate code
-  let id_u = 1;
+    //* generate code
+    let id_u = 1;
 
-  if (lastData !== null) {
-    const id = parseInt(lastData.jo_no.slice(-7));
-    id_u = id + 1;
+    if (lastData !== null) {
+      const lastId = parseInt(lastData.jo_no.split('-')[1]);
+      id_u = lastId + 1;
+    }
+
+    const idString = id_u.toString().padStart(5, '0');
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    const jo_no = `JO-${currentYear}${idString}`;
+
+    return jo_no;
+  } catch (error) {
+    throw error;
   }
-
-  const idString = id_u.toString().padStart(7, '0');
-  const jo_no = `JO${idString}`;
-
-  return jo_no;
 };
 
 //! Tambah data quotation

@@ -10,6 +10,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  
+  user_code String   @id @default(uuid())
+  name      String   @db.VarChar(255)
+  email     String   @unique
+  photo     String?  @default("https://i.postimg.cc/wB8wQtrs/avatar.png")
+  verified  Boolean? @default(true)
+
+  password String
+  role     Role? @default(user)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([email])
+  @@map(name: "users")
+}
+
 model Customer {
   customer_code String @id @default(uuid())
   partner_name String
@@ -129,4 +148,9 @@ model JOC {
 enum MataUang {
   IDR
   USD
+}
+
+enum Role {
+  user
+  admin
 }

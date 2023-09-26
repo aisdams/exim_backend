@@ -12,6 +12,27 @@ import {
   deleteQuotation,
 } from './quotation.service';
 
+// ! Generate Quotation Code
+export const getQuotationsHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const query = req.query;
+    const quotations = await getQuotations(query);
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Sukses get data quotations',
+      data: quotations.data,
+      pagination: quotations.pagination,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
 //! Tambah Quotation
 export const createQuotationHandler = async (
   req: Request,
@@ -60,27 +81,6 @@ export const getQuotationHandler = async (
       status: 'success',
       message: 'Sukses get data quotation',
       data: quotation,
-    });
-  } catch (err: any) {
-    next(err);
-  }
-};
-
-//! Get quotatin
-export const getQuotationsHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const query = req.query;
-    const quotations = await getQuotations(query);
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Sukses get data quotations',
-      data: quotations.data,
-      pagination: quotations.pagination,
     });
   } catch (err: any) {
     next(err);

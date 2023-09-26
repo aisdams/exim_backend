@@ -5,39 +5,38 @@ import { ParsedQs } from 'qs';
 
 //! Generate kode customer code
 export const generateCustomerCode = async (query: ParsedQs) => {
-  //* get last data
-  const lastData = await prisma.customer.findFirst({
-    select: {
-      customer_code: true,
-    },
-    orderBy: [
-      {
-        createdAt: 'desc',
+  try {
+    //* get last data
+    const lastData = await prisma.customer.findFirst({
+      select: {
+        customer_code: true,
       },
-    ],
-  });
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
 
-  //* generate code
-  let id_u = 1;
+    //* generate code
+    let id_u = 1;
 
-  if (lastData !== null) {
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const lastYearInData = lastData.customer_code.slice(3, 5);
-
-    if (currentYear === lastYearInData) {
-      const id = parseInt(lastData.customer_code.slice(-5)) + 1;
-      id_u = id;
+    if (lastData !== null) {
+      const lastId = parseInt(lastData.customer_code.split('-')[1]);
+      id_u = lastId + 1;
     }
+
+    const idString = id_u.toString().padStart(5, '0');
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    const customer_code = `CTM-${currentYear}${idString}`;
+
+    return customer_code;
+  } catch (error) {
+    throw error;
   }
-
-  const idString = id_u.toString().padStart(5, '0');
-  const currentYear = new Date().getFullYear().toString().slice(-2);
-  const customer_code = `CTM-${currentYear}${idString}`;
-
-  return customer_code;
 };
 
-//! Tambah dat
+//! Tambah data
 export async function createCustomer(
   data: Prisma.CustomerCreateInput
 ): Promise<Customer> {

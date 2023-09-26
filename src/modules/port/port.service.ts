@@ -1,40 +1,39 @@
-import { Prisma, Port } from '@prisma/client';
+import { Port, Prisma } from '@prisma/client';
 import prisma from '../../utils/prisma';
 import { createPortInput, UpdatePortInput } from './port.schema';
 import { ParsedQs } from 'qs';
 
 //! Generate kode Port
 export const generatePortCode = async (query: ParsedQs) => {
-  //* get last data
-  const lastData = await prisma.port.findFirst({
-    select: {
-      port_code: true,
-    },
-    orderBy: [
-      {
-        createdAt: 'desc',
+  try {
+    //* get last data
+    const lastData = await prisma.port.findFirst({
+      select: {
+        port_code: true,
       },
-    ],
-  });
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
 
-  //* generate code
-  let id_u = 1;
+    //* generate code
+    let id_u = 1;
 
-  if (lastData !== null) {
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const lastYearInData = lastData.port_code.slice(3, 5);
-
-    if (currentYear === lastYearInData) {
-      const id = parseInt(lastData.port_code.slice(-5)) + 1;
-      id_u = id;
+    if (lastData !== null) {
+      const lastId = parseInt(lastData.port_code.split('-')[1]);
+      id_u = lastId + 1;
     }
+
+    const idString = id_u.toString().padStart(5, '0');
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    const port_code = `PORT-${currentYear}${idString}`;
+
+    return port_code;
+  } catch (error) {
+    throw error;
   }
-
-  const idString = id_u.toString().padStart(5, '0');
-  const currentYear = new Date().getFullYear().toString().slice(-2);
-  const port_code = `PORT-${currentYear}${idString}`;
-
-  return port_code;
 };
 
 //! Tambah data Port

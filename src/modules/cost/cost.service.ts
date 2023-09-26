@@ -5,35 +5,35 @@ import { ParsedQs } from 'qs';
 
 //! Generate kode Cost
 export const generateItemCost = async (query: ParsedQs) => {
-  //* get last data
-  const lastData = await prisma.cost.findFirst({
-    select: {
-      item_cost: true,
-    },
-    orderBy: [
-      {
-        createdAt: 'desc',
+  try {
+    //* get last data
+    const lastData = await prisma.cost.findFirst({
+      select: {
+        item_cost: true,
       },
-    ],
-  });
-  //* generate code
-  let id_u = 1;
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
 
-  if (lastData !== null) {
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const lastYearInData = lastData.item_cost.slice(3, 5);
+    //* generate code
+    let id_u = 1;
 
-    if (currentYear === lastYearInData) {
-      const id = parseInt(lastData.item_cost.slice(-5)) + 1;
-      id_u = id;
+    if (lastData !== null) {
+      const lastId = parseInt(lastData.item_cost.split('-')[1]);
+      id_u = lastId + 1;
     }
+
+    const idString = id_u.toString().padStart(5, '0');
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    const item_cost = `COST-${currentYear}${idString}`;
+
+    return item_cost;
+  } catch (error) {
+    throw error;
   }
-
-  const idString = id_u.toString().padStart(5, '0');
-  const currentYear = new Date().getFullYear().toString().slice(-2);
-  const item_cost = `COST-${currentYear}${idString}`;
-
-  return item_cost;
 };
 
 //! Tambah data cost

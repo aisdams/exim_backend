@@ -21,12 +21,18 @@ export const generateJOCCode = async (query: ParsedQs) => {
   let id_u = 1;
 
   if (lastData !== null) {
-    const id = parseInt(lastData.joc_no.slice(-7));
-    id_u = id + 1;
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    const lastYearInData = lastData.joc_no.slice(3, 5);
+
+    if (currentYear === lastYearInData) {
+      const id = parseInt(lastData.joc_no.slice(-5)) + 1;
+      id_u = id;
+    }
   }
 
-  const idString = id_u.toString().padStart(7, '0');
-  const joc_no = `JO${idString}`;
+  const idString = id_u.toString().padStart(5, '0');
+  const currentYear = new Date().getFullYear().toString().slice(-2);
+  const joc_no = `QUO-${currentYear}${idString}`;
 
   return joc_no;
 };

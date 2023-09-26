@@ -1,4 +1,22 @@
 -- CreateTable
+CREATE TABLE `users` (
+    `user_code` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `photo` VARCHAR(191) NULL DEFAULT 'https://i.postimg.cc/wB8wQtrs/avatar.png',
+    `verified` BOOLEAN NULL DEFAULT true,
+    `password` VARCHAR(191) NOT NULL,
+    `role` ENUM('user', 'admin') NULL DEFAULT 'user',
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
+
+    UNIQUE INDEX `users_email_key`(`email`),
+    INDEX `users_email_idx`(`email`),
+    PRIMARY KEY (`user_code`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `customer` (
     `customer_code` VARCHAR(191) NOT NULL,
     `partner_name` VARCHAR(191) NOT NULL,

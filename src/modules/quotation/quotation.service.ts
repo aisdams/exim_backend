@@ -5,36 +5,35 @@ import { ParsedQs } from 'qs';
 
 //! Generate kode Quotation No
 export const generateQuotationCode = async (query: ParsedQs) => {
-  //* get last data
-  const lastData = await prisma.quotation.findFirst({
-    select: {
-      quo_no: true,
-    },
-    orderBy: [
-      {
-        createdAt: 'desc',
+  try {
+    //* get last data
+    const lastData = await prisma.quotation.findFirst({
+      select: {
+        quo_no: true,
       },
-    ],
-  });
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
 
-  //* generate code
-  let id_u = 1;
+    //* generate code
+    let id_u = 1;
 
-  if (lastData !== null) {
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const lastYearInData = lastData.quo_no.slice(3, 5);
-
-    if (currentYear === lastYearInData) {
-      const id = parseInt(lastData.quo_no.slice(-5)) + 1;
-      id_u = id;
+    if (lastData !== null) {
+      const lastId = parseInt(lastData.quo_no.split('-')[1]);
+      id_u = lastId + 1;
     }
+
+    const idString = id_u.toString().padStart(5, '0');
+    const currentYear = new Date().getFullYear().toString().slice(-2);
+    const quo_no = `QUO-${currentYear}${idString}`;
+
+    return quo_no;
+  } catch (error) {
+    throw error;
   }
-
-  const idString = id_u.toString().padStart(5, '0');
-  const currentYear = new Date().getFullYear().toString().slice(-2);
-  const quo_no = `QUO-${currentYear}${idString}`;
-
-  return quo_no;
 };
 
 //! Tambah data quotation

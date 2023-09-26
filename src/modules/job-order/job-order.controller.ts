@@ -32,7 +32,7 @@ export const createJobOrderHandler = async (
 
     res.status(200).json({
       status: 'success',
-      message: 'Sukses create data customer',
+      message: 'Sukses create data Job Order',
       data: jobOrder,
     });
   } catch (err: any) {

@@ -105,7 +105,7 @@ export const updateCustomerHandler = async (
     if (!customer) {
       return res.status(404).json({
         status: 'not found',
-        message: 'Quotation with that Code not found',
+        message: 'Customer with that Code not found',
       });
     }
 
