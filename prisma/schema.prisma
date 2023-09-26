@@ -36,6 +36,7 @@ model Customer {
   
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 
   Quotation Quotation[]
   JobOrder JobOrder[]
@@ -49,9 +50,9 @@ model Port {
   port_name String
   caption String
   
-  
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 
   Quotation Quotation[]
   JobOrder JobOrder[]
@@ -71,6 +72,7 @@ model Cost {
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
   Quotation Quotation[]
 }
 
@@ -95,6 +97,7 @@ model Quotation {
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
   JobOrder JobOrder[]
   JOC JOC[]
   @@map(name: "quotation")
@@ -122,6 +125,7 @@ model JobOrder {
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
   JOC JOC[]
 }
 
@@ -143,6 +147,7 @@ model JOC {
   createdBy String
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 }
 
 enum MataUang {
