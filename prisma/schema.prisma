@@ -33,6 +33,7 @@ model Customer {
   customer_code String @id @default(uuid())
   partner_name String
   unit String
+  address String
   
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -48,7 +49,7 @@ model Customer {
 model Port {
   port_code String @id @default(uuid())
   port_name String
-  caption String
+  caption String?
   
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -60,15 +61,15 @@ model Port {
   
 }
 
-
 model Cost {
   item_cost String @id @default(uuid())
   item_name String
   qty String
   unit String
-  mata_uang MataUang    @default(IDR)
+  mata_uang MataUang @default(IDR)
   amount String
-  note String
+  price String
+  note String?
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -79,21 +80,22 @@ model Cost {
 model Quotation {
   quo_no String @id @default(uuid())
   sales String
-  subject String
+  subject String?
   attn String
   type String
   delivery String
   kurs String
   loading String
   discharge String
-  status String      @default("PROCESS")
+  no_count String
+  status StatusJO @default(InProgress)
 
-  customer Customer  @relation(fields: [customer_code], references: [customer_code])
-  customer_code String    @db.VarChar(255)
-  cost Cost @relation(fields: [item_cost], references: [item_cost])
-  item_cost String   @db.VarChar(255)
-  port Port @relation(fields: [port_code], references: [port_code])
-  port_code String    @db.VarChar(255)
+  customer Customer    @relation(fields: [customer_code], references: [customer_code])
+  customer_code String @db.VarChar(255)
+  cost Cost            @relation(fields: [item_cost], references: [item_cost])
+  item_cost String     @db.VarChar(255)
+  port Port            @relation(fields: [port_code], references: [port_code])
+  port_code String     @db.VarChar(255)
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -106,6 +108,9 @@ model Quotation {
 model JobOrder {
   jo_no String @id @default(uuid())
   jo_date String
+  shipper String?
+  consignee String?
+  qty String
   hbl String
   mbl String
   etd String
@@ -117,11 +122,12 @@ model JobOrder {
   createdBy String
 
   quotation Quotation @relation(fields: [quo_no], references: [quo_no])
-  quo_no String     @db.VarChar(255)
-  customer Customer  @relation(fields: [customer_code], references: [customer_code])
-  customer_code String    @db.VarChar(255)
+  
+  quo_no String @db.VarChar(255)
+  customer Customer @relation(fields: [customer_code], references: [customer_code])
+  customer_code String @db.VarChar(255)
   port Port @relation(fields: [port_code], references: [port_code])
-  port_code String    @db.VarChar(255)
+  port_code String @db.VarChar(255)
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
@@ -132,17 +138,21 @@ model JobOrder {
 model JOC {
   joc_no String @id @default(uuid())
   no_mbl String
-  status String
+  status StatusJO @default(InProgress)
   vessel String
   no_container String
   general_purpose String
+  loading String
+  discharge String
+  etd String
+  eta String
 
-  quotation Quotation @relation(fields: [quo_no], references: [quo_no])
-  quo_no String     @db.VarChar(255)
-  jobOrder JobOrder @relation(fields: [jo_no], references: [jo_no])
-  jo_no String     @db.VarChar(255)
-  customer Customer  @relation(fields: [customer_code], references: [customer_code])
-  customer_code String    @db.VarChar(255)
+  quotation Quotation   @relation(fields: [quo_no], references: [quo_no])
+  quo_no String         @db.VarChar(255)
+  jobOrder JobOrder     @relation(fields: [jo_no], references: [jo_no])
+  jo_no String          @db.VarChar(255)
+  customer Customer     @relation(fields: [customer_code], references: [customer_code])
+  customer_code String @db.VarChar(255)
   
   createdBy String
   createdAt DateTime? @default(now())
@@ -158,4 +168,10 @@ enum MataUang {
 enum Role {
   user
   admin
+}
+
+enum StatusJO  {
+  Executed
+  InProgress
+  Cancel
 }

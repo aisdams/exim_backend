@@ -5,6 +5,15 @@ export const createJobOrderSchema = object({
     jo_date: string({
       required_error: 'jo_date harus di isi!',
     }),
+    shipper: string({
+      required_error: 'shipper harus di isi',
+    }),
+    consignee: string({
+      required_error: 'consignee harus di isi',
+    }),
+    qty: string({
+      required_error: 'qty harus di isi',
+    }),
     hbl: string({
       required_error: 'hbl harus di isi!',
     }),
@@ -34,6 +43,9 @@ export const createJobOrderSchema = object({
     }),
     port_code: string({
       required_error: 'port_code harus di isi',
+    }),
+    createdBy: string({
+      required_error: 'createdBy harus di isi',
     }),
   }),
 });

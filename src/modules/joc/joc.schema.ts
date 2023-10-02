@@ -15,6 +15,12 @@ export const createJOCSchema = object({
     createdBy: string({
       required_error: 'createdBy harus di isi',
     }),
+    loading: string({
+      required_error: 'loading harus di isi',
+    }),
+    discharge: string({
+      required_error: 'discharge harus di isi',
+    }),
   }),
 });
 
