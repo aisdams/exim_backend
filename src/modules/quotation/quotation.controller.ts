@@ -10,6 +10,7 @@ import {
   updateQuotation,
   deleteAllQuotation,
   deleteQuotation,
+  copyQuotationData,
 } from './quotation.service';
 
 // ! Generate Quotation Code
@@ -57,6 +58,35 @@ export const createQuotationHandler = async (
       data: quotation,
     });
   } catch (err: any) {
+    next(err);
+  }
+};
+
+// Duplicate Data Quotation
+export const copyQuotationDataHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const quo_no = req.params.quo_no;
+
+    const result = await copyQuotationData(quo_no);
+
+    if (result.success) {
+      res.status(200).json({
+        status: 'success',
+        message: 'Data has been copied successfully',
+        data: result.data,
+      });
+    } else {
+      res.status(500).json({
+        status: 'error',
+        message: 'Failed to copy data',
+        error: result.error,
+      });
+    }
+  } catch (err) {
     next(err);
   }
 };

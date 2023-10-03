@@ -36,6 +36,32 @@ export const generateQuotationCode = async (query: ParsedQs) => {
   }
 };
 
+// Duplicate Data Quotation
+export const copyQuotationData = async (quo_no: string) => {
+  try {
+    const quotationToCopy = await getQuotation(quo_no);
+
+    if (!quotationToCopy) {
+      return {
+        success: false,
+        error: 'Quotation with that Code not found',
+      };
+    }
+    // Simpan data yang disalin ke database
+    const createdQuotation = await createQuotationn;
+
+    return {
+      success: true,
+      data: createdQuotation,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: 'Failed to copy data',
+    };
+  }
+};
+
 //! Tambah data quotation
 export async function createQuotationn(
   data: Prisma.QuotationCreateInput

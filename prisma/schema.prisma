@@ -88,7 +88,7 @@ model Quotation {
   loading String
   discharge String
   no_count String
-  status StatusJO @default(InProgress)
+  status StatusCheck? @default(InProgress)
 
   customer Customer    @relation(fields: [customer_code], references: [customer_code])
   customer_code String @db.VarChar(255)
@@ -138,7 +138,7 @@ model JobOrder {
 model JOC {
   joc_no String @id @default(uuid())
   no_mbl String
-  status StatusJO @default(InProgress)
+  status StatusCheck? @default(InProgress)
   vessel String
   no_container String
   general_purpose String
@@ -170,7 +170,7 @@ enum Role {
   admin
 }
 
-enum StatusJO  {
+enum StatusCheck  {
   Executed
   InProgress
   Cancel

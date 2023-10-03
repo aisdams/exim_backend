@@ -6,6 +6,7 @@ import {
   updateQuotationHandler,
   deleteQuotationHandler,
   deleteQuotationsHandler,
+  copyQuotationDataHandler,
 } from '../../src/modules/quotation/quotation.controller';
 import {
   createQuotationSchema,
@@ -20,6 +21,11 @@ const upload = multer();
 router.get('/', getQuotationsHandler);
 router.get('/:quo_no', getQuotationHandler);
 router.post('/', validate(createQuotationSchema), createQuotationHandler);
+router.post(
+  '/:quo_no',
+  validate(createQuotationSchema),
+  copyQuotationDataHandler
+);
 router.put(
   '/:quo_no',
 
