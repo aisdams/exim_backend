@@ -37,7 +37,7 @@ export const generateQuotationCode = async (query: ParsedQs) => {
 };
 
 // Duplicate Data Quotation
-export const copyQuotationData = async (quo_no: string) => {
+export const copyQuotationData = async (quo_no: string): Promise<any> => {
   try {
     const quotationToCopy = await getQuotation(quo_no);
 
@@ -47,8 +47,43 @@ export const copyQuotationData = async (quo_no: string) => {
         error: 'Quotation with that Code not found',
       };
     }
+
+    const copiedQuotationData: Prisma.QuotationCreateInput = {
+      quo_no: await generateQuotationCode({}),
+      sales: quotationToCopy.sales,
+      subject: quotationToCopy.subject,
+      attn: quotationToCopy.attn,
+      type: quotationToCopy.type,
+      delivery: quotationToCopy.delivery,
+      kurs: quotationToCopy.kurs,
+      loading: quotationToCopy.loading,
+      discharge: quotationToCopy.discharge,
+      no_count: quotationToCopy.no_count,
+      status: quotationToCopy.status,
+      deletedAt: null,
+      customer: {
+        connect: {
+          // Ganti dengan id pelanggan yang sesuai
+          customer_code: quotationToCopy.customer_code,
+        },
+      },
+      cost: {
+        connect: {
+          // Ganti dengan id port yang sesuai
+          item_cost: quotationToCopy.item_cost,
+        },
+      },
+      port: {
+        connect: {
+          // Ganti dengan id port yang sesuai
+          port_code: quotationToCopy.port_code,
+        },
+      },
+      // ... tambahkan properti lain sesuai kebutuhan
+    };
+
     // Simpan data yang disalin ke database
-    const createdQuotation = await createQuotationn;
+    const createdQuotation = await createQuotationn(copiedQuotationData);
 
     return {
       success: true,

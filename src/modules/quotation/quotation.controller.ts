@@ -63,6 +63,7 @@ export const createQuotationHandler = async (
 };
 
 // Duplicate Data Quotation
+// controller.ts
 export const copyQuotationDataHandler = async (
   req: Request,
   res: Response,
@@ -80,6 +81,7 @@ export const copyQuotationDataHandler = async (
         data: result.data,
       });
     } else {
+      console.error('Error copying data:', result.error);
       res.status(500).json({
         status: 'error',
         message: 'Failed to copy data',
@@ -87,6 +89,7 @@ export const copyQuotationDataHandler = async (
       });
     }
   } catch (err) {
+    console.error('Internal Server Error:', err);
     next(err);
   }
 };
