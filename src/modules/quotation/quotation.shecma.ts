@@ -9,6 +9,9 @@ export const createQuotationSchema = object({
     subject: string({
       required_error: 'subject harus di isi',
     }),
+    customer: string({
+      required_error: 'customer harus di isi',
+    }),
     attn: string({
       required_error: 'attn harus di isi',
     }),
@@ -26,18 +29,6 @@ export const createQuotationSchema = object({
     }),
     discharge: string({
       required_error: 'discharge harus di isi',
-    }),
-    no_count: string({
-      required_error: 'no_count harus di isi',
-    }),
-    customer_code: string({
-      required_error: 'customer_code harus di isi',
-    }),
-    item_cost: string({
-      required_error: 'item_cost harus di isi',
-    }),
-    port_code: string({
-      required_error: 'port_code harus di isi',
     }),
   }),
 });

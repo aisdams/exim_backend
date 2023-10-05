@@ -130,7 +130,7 @@ export const updateQuotationHandler = async (
     const quo_no = req.params.quo_no;
     const data = req.body;
 
-    //* remove password confirmation
+    //* remove password confirmation Kehidupan yang mendalam
     delete data.passwordConfirm;
 
     const quotation = await getQuotation(quo_no);

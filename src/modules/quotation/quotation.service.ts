@@ -51,6 +51,7 @@ export const copyQuotationData = async (quo_no: string): Promise<any> => {
     const copiedQuotationData: Prisma.QuotationCreateInput = {
       quo_no: await generateQuotationCode({}),
       sales: quotationToCopy.sales,
+      customer: quotationToCopy.customer,
       subject: quotationToCopy.subject,
       attn: quotationToCopy.attn,
       type: quotationToCopy.type,
@@ -58,31 +59,10 @@ export const copyQuotationData = async (quo_no: string): Promise<any> => {
       kurs: quotationToCopy.kurs,
       loading: quotationToCopy.loading,
       discharge: quotationToCopy.discharge,
-      no_count: quotationToCopy.no_count,
       status: quotationToCopy.status,
       deletedAt: null,
-      customer: {
-        connect: {
-          // Ganti dengan id pelanggan yang sesuai
-          customer_code: quotationToCopy.customer_code,
-        },
-      },
-      cost: {
-        connect: {
-          // Ganti dengan id port yang sesuai
-          item_cost: quotationToCopy.item_cost,
-        },
-      },
-      port: {
-        connect: {
-          // Ganti dengan id port yang sesuai
-          port_code: quotationToCopy.port_code,
-        },
-      },
-      // ... tambahkan properti lain sesuai kebutuhan
     };
 
-    // Simpan data yang disalin ke database
     const createdQuotation = await createQuotationn(copiedQuotationData);
 
     return {
