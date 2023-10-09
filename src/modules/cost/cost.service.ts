@@ -27,8 +27,8 @@ export const generateItemCost = async (query: ParsedQs) => {
     }
 
     const idString = id_u.toString().padStart(5, '0');
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const item_cost = `COST-${currentYear}${idString}`;
+    const prefix = '';
+    const item_cost = `COST-${prefix}${idString}`;
 
     return item_cost;
   } catch (error) {

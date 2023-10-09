@@ -47,8 +47,7 @@ CREATE TABLE `Cost` (
     `item_name` VARCHAR(191) NOT NULL,
     `qty` VARCHAR(191) NOT NULL,
     `unit` VARCHAR(191) NOT NULL,
-    `mata_uang` ENUM('IDR', 'USD') NOT NULL DEFAULT 'IDR',
-    `amount` VARCHAR(191) NOT NULL,
+    `mata_uang` ENUM('IDR', 'USD') NULL DEFAULT 'IDR',
     `price` VARCHAR(191) NOT NULL,
     `note` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -63,6 +62,7 @@ CREATE TABLE `quotation` (
     `quo_no` VARCHAR(191) NOT NULL,
     `sales` VARCHAR(191) NULL,
     `subject` VARCHAR(191) NULL,
+    `customer` VARCHAR(191) NULL,
     `attn` VARCHAR(191) NULL,
     `type` VARCHAR(191) NULL,
     `delivery` VARCHAR(191) NULL,
@@ -71,9 +71,9 @@ CREATE TABLE `quotation` (
     `discharge` VARCHAR(191) NULL,
     `no_count` VARCHAR(191) NULL,
     `status` ENUM('Executed', 'InProgress', 'Cancel') NULL DEFAULT 'InProgress',
-    `customer_code` VARCHAR(255) NOT NULL,
-    `item_cost` VARCHAR(255) NOT NULL,
-    `port_code` VARCHAR(255) NOT NULL,
+    `customer_code` VARCHAR(255) NULL,
+    `item_cost` VARCHAR(255) NULL,
+    `port_code` VARCHAR(255) NULL,
     `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -87,19 +87,19 @@ CREATE TABLE `JobOrder` (
     `jo_date` VARCHAR(191) NOT NULL,
     `shipper` VARCHAR(191) NULL,
     `consignee` VARCHAR(191) NULL,
-    `qty` VARCHAR(191) NOT NULL,
-    `hbl` VARCHAR(191) NOT NULL,
-    `mbl` VARCHAR(191) NOT NULL,
-    `etd` VARCHAR(191) NOT NULL,
-    `eta` VARCHAR(191) NOT NULL,
-    `vessel` VARCHAR(191) NOT NULL,
-    `gross_weight` VARCHAR(191) NOT NULL,
-    `volume` VARCHAR(191) NOT NULL,
-    `name_of_goods` VARCHAR(191) NOT NULL,
-    `createdBy` VARCHAR(191) NOT NULL,
+    `qty` VARCHAR(191) NULL,
+    `hbl` VARCHAR(191) NULL,
+    `mbl` VARCHAR(191) NULL,
+    `etd` VARCHAR(191) NULL,
+    `eta` VARCHAR(191) NULL,
+    `vessel` VARCHAR(191) NULL,
+    `gross_weight` VARCHAR(191) NULL,
+    `volume` VARCHAR(191) NULL,
+    `name_of_goods` VARCHAR(191) NULL,
+    `createdBy` VARCHAR(191) NOT NULL DEFAULT 'ADMIN',
     `quo_no` VARCHAR(255) NOT NULL,
-    `customer_code` VARCHAR(255) NOT NULL,
-    `port_code` VARCHAR(255) NOT NULL,
+    `customer_code` VARCHAR(255) NULL,
+    `port_code` VARCHAR(255) NULL,
     `createdAt` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -131,22 +131,22 @@ CREATE TABLE `JOC` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `quotation` ADD CONSTRAINT `quotation_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `quotation` ADD CONSTRAINT `quotation_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `quotation` ADD CONSTRAINT `quotation_item_cost_fkey` FOREIGN KEY (`item_cost`) REFERENCES `Cost`(`item_cost`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `quotation` ADD CONSTRAINT `quotation_item_cost_fkey` FOREIGN KEY (`item_cost`) REFERENCES `Cost`(`item_cost`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `quotation` ADD CONSTRAINT `quotation_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `quotation` ADD CONSTRAINT `quotation_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_quo_no_fkey` FOREIGN KEY (`quo_no`) REFERENCES `quotation`(`quo_no`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `JOC` ADD CONSTRAINT `JOC_quo_no_fkey` FOREIGN KEY (`quo_no`) REFERENCES `quotation`(`quo_no`) ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -7,10 +7,12 @@ import {
   deleteQuotationHandler,
   deleteQuotationsHandler,
   copyQuotationDataHandler,
+  updateStatusHandler,
 } from '../../src/modules/quotation/quotation.controller';
 import {
   createQuotationSchema,
   updateQuotationSchema,
+  updateStatusSchema,
 } from '../modules/quotation/quotation.shecma';
 import { validate } from '../middleware/validate';
 import multer from 'multer';
@@ -27,6 +29,11 @@ router.put(
 
   validate(updateQuotationSchema),
   updateQuotationHandler
+);
+router.put(
+  '/:quo_no/update-status',
+  validate(updateStatusSchema),
+  updateStatusHandler
 );
 router.delete(
   '/:quo_no',

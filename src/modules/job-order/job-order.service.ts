@@ -27,8 +27,8 @@ export const generateJobOrderCode = async (query: ParsedQs) => {
     }
 
     const idString = id_u.toString().padStart(5, '0');
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const jo_no = `JO-${currentYear}${idString}`;
+    const prefix = '';
+    const jo_no = `JO-${prefix}${idString}`;
 
     return jo_no;
   } catch (error) {

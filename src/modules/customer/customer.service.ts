@@ -27,8 +27,8 @@ export const generateCustomerCode = async (query: ParsedQs) => {
     }
 
     const idString = id_u.toString().padStart(5, '0');
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const customer_code = `CTM-${currentYear}${idString}`;
+    const prefix = '';
+    const customer_code = `CTM-${prefix}${idString}`;
 
     return customer_code;
   } catch (error) {

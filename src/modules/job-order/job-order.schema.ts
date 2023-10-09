@@ -5,47 +5,11 @@ export const createJobOrderSchema = object({
     jo_date: string({
       required_error: 'jo_date harus di isi!',
     }),
-    shipper: string({
-      required_error: 'shipper harus di isi',
-    }),
-    consignee: string({
-      required_error: 'consignee harus di isi',
-    }),
-    qty: string({
-      required_error: 'qty harus di isi',
-    }),
-    hbl: string({
-      required_error: 'hbl harus di isi!',
-    }),
-    mbl: string({
-      required_error: 'mbl harus di isi!',
-    }),
-    etd: string({
-      required_error: 'etd harus di isi!',
-    }),
-    eta: string({
-      required_error: 'eta harus di isi!',
-    }),
-    vessel: string({
-      required_error: 'vessel harus di isi',
-    }),
-    gross_weight: string({
-      required_error: 'gross_weight harus di isi',
-    }),
-    name_of_goods: string({
-      required_error: 'name_of_goods harus di isi',
-    }),
     quo_no: string({
       required_error: 'quo_no harus di isi',
     }),
     customer_code: string({
       required_error: 'customer_code harus di isi',
-    }),
-    port_code: string({
-      required_error: 'port_code harus di isi',
-    }),
-    createdBy: string({
-      required_error: 'createdBy harus di isi',
     }),
   }),
 });

@@ -34,6 +34,31 @@ export const getQuotationsHandler = async (
   }
 };
 
+export const updateStatusHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const quo_no = req.params.quo_no;
+    const data = req.body;
+    // Cari Quotation berdasarkan quo_no
+    const quotation: any | null = await getQuotation(req.params.quo_no);
+
+    if (!quotation) {
+      return res.status(404).json({ error: 'Quotation not found' });
+    }
+
+    // Perbarui status Quotation di database
+    const updatedQuotation = await updateQuotation(quo_no, data);
+    return res
+      .status(200)
+      .json({ success: true, message: 'Status updated successfully' });
+  } catch (error) {
+    console.error('Error updating status:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
 //! Tambah Quotation
 export const createQuotationHandler = async (
   req: Request,
@@ -63,7 +88,6 @@ export const createQuotationHandler = async (
 };
 
 // Duplicate Data Quotation
-// controller.ts
 export const copyQuotationDataHandler = async (
   req: Request,
   res: Response,
@@ -75,11 +99,18 @@ export const copyQuotationDataHandler = async (
     const result = await copyQuotationData(quo_no);
 
     if (result.success) {
-      res.status(200).json({
-        status: 'success',
-        message: 'Data has been copied successfully',
-        data: result.data,
-      });
+      if (result.data) {
+        res.status(200).json({
+          status: 'success',
+          message: 'Data has been copied successfully',
+          data: result.data,
+        });
+      } else {
+        res.status(500).json({
+          status: 'error',
+          message: 'Failed to copy data: Data not found',
+        });
+      }
     } else {
       console.error('Error copying data:', result.error);
       res.status(500).json({

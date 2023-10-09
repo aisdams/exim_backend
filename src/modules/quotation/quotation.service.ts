@@ -27,8 +27,8 @@ export const generateQuotationCode = async (query: ParsedQs) => {
     }
 
     const idString = id_u.toString().padStart(5, '0');
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const quo_no = `QUO-${currentYear}${idString}`;
+    const prefix = '';
+    const quo_no = `QUO-${prefix}${idString}`;
 
     return quo_no;
   } catch (error) {
@@ -59,20 +59,21 @@ export const copyQuotationData = async (quo_no: string): Promise<any> => {
       kurs: quotationToCopy.kurs,
       loading: quotationToCopy.loading,
       discharge: quotationToCopy.discharge,
-      status: quotationToCopy.status,
-      deletedAt: null,
     };
 
     const createdQuotation = await createQuotationn(copiedQuotationData);
+
+    console.log('API Response:', createdQuotation); // Tambahkan ini untuk debugging
 
     return {
       success: true,
       data: createdQuotation,
     };
   } catch (error) {
+    console.error('Error copying data:', error);
     return {
       success: false,
-      error: 'Failed to copy data',
+      error: 'Failed to copy Quotation data',
     };
   }
 };

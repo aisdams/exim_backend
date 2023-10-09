@@ -66,8 +66,7 @@ model Cost {
   item_name String
   qty String
   unit String
-  mata_uang MataUang @default(IDR)
-  amount String
+  mata_uang MataUang? @default(IDR)
   price String
   note String?
 
@@ -111,25 +110,25 @@ model JobOrder {
   jo_date String
   shipper String?
   consignee String?
-  qty String
+  qty String?
 
-  hbl String
-  mbl String
-  etd String
-  eta String
-  vessel String
-  gross_weight String
-  volume String
-  name_of_goods String
-  createdBy String
+  hbl String?
+  mbl String?
+  etd String?
+  eta String?
+  vessel String?
+  gross_weight String?
+  volume String?
+  name_of_goods String?
+  createdBy String @default("ADMIN")
 
   quotation Quotation @relation(fields: [quo_no], references: [quo_no])
   
   quo_no String @db.VarChar(255)
-  customer Customer @relation(fields: [customer_code], references: [customer_code])
-  customer_code String @db.VarChar(255)
-  port Port @relation(fields: [port_code], references: [port_code])
-  port_code String @db.VarChar(255)
+  customer Customer? @relation(fields: [customer_code], references: [customer_code])
+  customer_code String? @db.VarChar(255)
+  port Port? @relation(fields: [port_code], references: [port_code])
+  port_code String? @db.VarChar(255)
 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt

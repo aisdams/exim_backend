@@ -28,12 +28,6 @@ export const updateCostSchema = object({
     unit: string({
       required_error: 'unit harus di isi!',
     }),
-    mata_uang: string({
-      required_error: 'mata_uang harus di isi!',
-    }),
-    amount: string({
-      required_error: 'amount harus di isi!',
-    }),
     note: string({
       required_error: 'note harus di isi',
     }),
