@@ -16,8 +16,14 @@ export const createJobOrderSchema = object({
 
 export const updateJobOrderSchema = object({
   body: object({
-    jo_date: string({
-      required_error: 'jo_date harus di isi!',
+    shipper: string({
+      required_error: 'shipper harus di isi!',
+    }),
+    consignee: string({
+      required_error: 'consignee harus di isi!',
+    }),
+    qty: string({
+      required_error: 'qty harus di isi!',
     }),
     hbl: string({
       required_error: 'hbl harus di isi!',
@@ -34,8 +40,17 @@ export const updateJobOrderSchema = object({
     vessel: string({
       required_error: 'vessel harus di isi',
     }),
+    loading: string({
+      required_error: 'loading harus di isi',
+    }),
+    discharge: string({
+      required_error: 'discharge harus di isi',
+    }),
     gross_weight: string({
       required_error: 'gross_weight harus di isi',
+    }),
+    volume: string({
+      required_error: 'volume harus di isi',
     }),
     name_of_goods: string({
       required_error: 'name_of_goods harus di isi',

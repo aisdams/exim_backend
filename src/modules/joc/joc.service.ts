@@ -5,54 +5,58 @@ import { ParsedQs } from 'qs';
 
 //! Generate kode JOC
 export const generateJOCCode = async (query: ParsedQs) => {
-  //* get last data
-  const lastData = await prisma.jOC.findFirst({
-    select: {
-      joc_no: true,
-    },
-    orderBy: [
-      {
-        createdAt: 'desc',
+  try {
+    //* get last data
+    const lastData = await prisma.jOC.findFirst({
+      select: {
+        joc_no: true,
       },
-    ],
-  });
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
 
-  //* generate code
-  let id_u = 1;
+    //* generate code
+    let id_u = 1;
 
-  if (lastData !== null) {
-    const currentYear = new Date().getFullYear().toString().slice(-2);
-    const lastYearInData = lastData.joc_no.slice(3, 5);
-
-    if (currentYear === lastYearInData) {
-      const id = parseInt(lastData.joc_no.slice(-5)) + 1;
-      id_u = id;
+    if (lastData !== null) {
+      const lastId = parseInt(lastData.joc_no.split('-')[1]);
+      id_u = lastId + 1;
     }
+
+    const idString = id_u.toString().padStart(5, '0');
+    const prefix = '';
+    const joc_no = `JOC-${prefix}${idString}`;
+
+    return joc_no;
+  } catch (error) {
+    throw error;
   }
-
-  const idString = id_u.toString().padStart(5, '0');
-  const currentYear = new Date().getFullYear().toString().slice(-2);
-  const joc_no = `QUO-${currentYear}${idString}`;
-
-  return joc_no;
 };
 
 //! Tambah data JOC
-export async function createJOC(data: Prisma.JOCCreateInput): Promise<JOC> {
-  try {
-    const JOC = await prisma.jOC.create({
-      data,
-    });
-    return JOC;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(`Gagal membuat JOC: ${error.message}`);
-    } else {
-      throw new Error('Terjadi kesalahan saat membuat JOC.');
-    }
-  }
-}
+// export async function createJOC(data: Prisma.JOCCreateInput): Promise<JOC> {
+//   try {
+//     const JOC = await prisma.jOC.create({
+//       data,
+//     });
+//     return JOC;
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       throw new Error(`Gagal membuat JOC: ${error.message}`);
+//     } else {
+//       throw new Error('Terjadi kesalahan saat membuat JOC.');
+//     }
+//   }
+// }
 
+export async function createJOC(data: createJOCInput) {
+  return await prisma.jOC.create({
+    data,
+  });
+}
 //! Get data JOC by id
 export async function getJOC(joc_no: string) {
   return await prisma.jOC.findUnique({
