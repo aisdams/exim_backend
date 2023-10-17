@@ -1,6 +1,10 @@
 import { Prisma, Quotation } from '@prisma/client';
 import prisma from '../../utils/prisma';
-import { createQuotationInput, UpdateQuotationInput } from './quotation.shecma';
+import {
+  createQuotationInput,
+  UpdateQuotationInput,
+  UpdateStatusInput,
+} from './quotation.shecma';
 import { ParsedQs } from 'qs';
 
 //! Generate kode Quotation No

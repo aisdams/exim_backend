@@ -121,6 +121,33 @@ export const updateJOCHandler = async (
   }
 };
 
+//! Update Status JOC
+export const updateStatusHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const joc_no = req.params.joc_no;
+    const data = req.body;
+    // Cari JOC berdasarkan joc_no
+    const joc: any | null = await getJOC(req.params.joc_no);
+
+    if (!joc) {
+      return res.status(404).json({ error: 'JOC not found' });
+    }
+
+    // Perbarui status JOC di database
+    const updatedJOC = await updateJOC(joc_no, data);
+    return res
+      .status(200)
+      .json({ success: true, message: 'Status updated successfully' });
+  } catch (error) {
+    console.error('Error updating status:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 //! Delete JOC by id
 export const deleteJOCHandler = async (
   req: Request,

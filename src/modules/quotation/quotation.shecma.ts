@@ -33,14 +33,6 @@ export const createQuotationSchema = object({
   }),
 });
 
-export const updateStatusSchema = object({
-  body: object({
-    status: string({
-      required_error: 'newStatus harus di isi',
-    }),
-  }),
-});
-
 export const updateQuotationSchema = object({
   body: object({
     sales: string({
@@ -69,6 +61,17 @@ export const updateQuotationSchema = object({
     }),
     discharge: string({
       required_error: 'discharge harus di isi',
+    }),
+    item_cost: string({
+      required_error: 'item_cost harus di isi',
+    }),
+  }),
+});
+
+export const updateStatusSchema = object({
+  body: object({
+    status: string({
+      required_error: 'newStatus harus di isi',
     }),
   }),
 });

@@ -44,5 +44,14 @@ export const updateJOCSchema = object({
   }),
 });
 
+export const updateStatusSchema = object({
+  body: object({
+    status: string({
+      required_error: 'newStatus harus di isi',
+    }),
+  }),
+});
+
 export type createJOCInput = TypeOf<typeof createJOCSchema>['body'];
 export type UpdateJOCInput = TypeOf<typeof updateJOCSchema>['body'];
+export type UpdateStatusInput = TypeOf<typeof updateStatusSchema>['body'];

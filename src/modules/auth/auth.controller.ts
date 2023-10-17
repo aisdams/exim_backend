@@ -189,7 +189,7 @@ export const login = async (
       return next(new AppError(400, 'Invalid email or password'));
     }
 
-    const expireInSeconds = 86400; //! 1 day
+    const expireInSeconds = 86400;
 
     const accessToken = jwt.sign(
       {
@@ -206,7 +206,7 @@ export const login = async (
 
     //! set cookie
     // const date = expiresInSeconds(expireInSeconds);
-    // res.cookie('WMS_TOKEN', accessToken, {
+    // res.cookie('EXIM_TOKEN', accessToken, {
     //   httpOnly: true,
     //   expires: date,
     //   // sameSite: "none",
@@ -237,9 +237,9 @@ export const me = (req: any, res: Response) => {
 };
 
 export const newLogout = (req: any, res: Response) => {
-  res.clearCookie('WMS_TOKEN', {
+  res.clearCookie('EXIM_TOKEN', {
     secure: process.env.NODE_ENV === 'development' ? false : true,
-    domain: process.env.NODE_ENV === 'development' ? 'localhost' : '.neelo.id',
+    // domain: process.env.NODE_ENV === 'development' ? 'localhost' : '.neelo.id',
   });
 
   return res.status(200).json({

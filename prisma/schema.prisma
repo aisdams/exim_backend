@@ -11,7 +11,6 @@ datasource db {
 }
 
 model User {
-  
   user_code String   @id @default(uuid())
   name      String   @db.VarChar(255)
   email     String   @unique
@@ -91,8 +90,10 @@ model Quotation {
 
   customerTab Customer? @relation(fields: [customer_code], references: [customer_code])
   customer_code String? @db.VarChar(255)
-  cost Cost?            @relation(fields: [item_cost], references: [item_cost])
+  
+  cost Cost[]
   item_cost String?     @db.VarChar(255)
+
   port Port?            @relation(fields: [port_code], references: [port_code])
   port_code String?     @db.VarChar(255)
 
