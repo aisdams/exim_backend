@@ -12,6 +12,8 @@ import {
   deleteQuotation,
   copyQuotationData,
 } from './quotation.service';
+import { UpdateQuotationInput, updateQuotationSchema } from './quotation.shecma';
+
 
 // ! Generate Quotation Code
 export const getQuotationsHandler = async (
@@ -49,7 +51,6 @@ export const updateStatusHandler = async (
       return res.status(404).json({ error: 'Quotation not found' });
     }
 
-    // Perbarui status Quotation di database
     const updatedQuotation = await updateQuotation(quo_no, data);
     return res
       .status(200)
@@ -59,6 +60,7 @@ export const updateStatusHandler = async (
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 //! Tambah Quotation
 export const createQuotationHandler = async (
   req: Request,
@@ -152,36 +154,71 @@ export const getQuotationHandler = async (
 };
 
 //! Update quotaion
-export const updateQuotationHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+// export const updateQuotationHandler = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const quo_no = req.params.quo_no;
+//     const data = req.body;
+
+//     //* remove password confirmation Kehidupan yang mendalam
+//     delete data.passwordConfirm;
+
+//     const quotation = await getQuotation(quo_no);
+
+//     if (!quotation) {
+//       return res.status(404).json({
+//         status: 'not found',
+//         message: 'Quotation with that Code not found',
+//       });
+//     }
+
+//     const updatedQuotation = await updateQuotation(quo_no, data);
+
+//     res.status(200).json({
+//       status: 'success',
+//       message: 'Sukses update data quotation',
+//       data: updatedQuotation,
+//     });
+//   } catch (err: any) {
+//     next(err);
+//   }
+// };
+
+// Update Quotation by Id
+export const updateQuotationHandler = async (req: Request, res: Response) => {
+  const { sales, subject, customer, attn, type, delivery, kurs, loading, discharge, valheader, valfooter, item_cost, cost } = req.body;
+  const { quo_no } = req.params;
+
+  if (!quo_no) {
+    return res.status(400).json({ error: 'Quotation number is required' });
+  }
+
   try {
-    const quo_no = req.params.quo_no;
-    const data = req.body;
+    const updatedQuotationData: UpdateQuotationInput = {
+      sales,
+      subject,
+      customer,
+      attn,
+      type,
+      delivery,
+      kurs,
+      loading,
+      discharge,
+      valheader,
+      valfooter,
+      item_cost,
+      cost,
+    };
 
-    //* remove password confirmation Kehidupan yang mendalam
-    delete data.passwordConfirm;
+    const updatedQuotation = await updateQuotation(quo_no, updatedQuotationData);
 
-    const quotation = await getQuotation(quo_no);
-
-    if (!quotation) {
-      return res.status(404).json({
-        status: 'not found',
-        message: 'Quotation with that Code not found',
-      });
-    }
-
-    const updatedQuotation = await updateQuotation(quo_no, data);
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Sukses update data quotation',
-      data: updatedQuotation,
-    });
-  } catch (err: any) {
-    next(err);
+    res.status(200).json(updatedQuotation);
+  } catch (error) {
+    console.error('Error updating quotation:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

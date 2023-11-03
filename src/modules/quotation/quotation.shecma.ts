@@ -1,81 +1,58 @@
 import { object, string, TypeOf, z } from 'zod';
 
+export const CostInput = z.object({
+  item_name: z.string(),
+  qty: z.string(),
+  unit: z.string(),
+  mata_uang: z.string(),
+  price: z.string(),
+  note: z.string().nullable(),
+});
+
 //! Validasi create data quotation
-export const createQuotationSchema = object({
-  body: object({
-    sales: string({
-      required_error: 'sales harus di isi',
-    }),
-    subject: string({
-      required_error: 'subject harus di isi',
-    }),
-    customer: string({
-      required_error: 'customer harus di isi',
-    }),
-    attn: string({
-      required_error: 'attn harus di isi',
-    }),
-    type: string({
-      required_error: 'type harus di isi',
-    }),
-    delivery: string({
-      required_error: 'delivery harus di isi',
-    }),
-    kurs: string({
-      required_error: 'kurs harus di isi',
-    }),
-    loading: string({
-      required_error: 'loading harus di isi',
-    }),
-    discharge: string({
-      required_error: 'discharge harus di isi',
-    }),
+export const createQuotationSchema = z.object({
+  body: z.object({
+    sales: z.string(),
+    subject: z.string(),
+    customer: z.string(),
+    attn: z.string(),
+    type: z.string(),
+    delivery: z.string(),
+    kurs: z.string(),
+    loading: z.string(),
+    discharge: z.string(),
+    customer_code: z.string(),
   }),
 });
 
-export const updateQuotationSchema = object({
-  body: object({
-    sales: string({
-      required_error: 'sales harus di isi',
-    }),
-    subject: string({
-      required_error: 'subject harus di isi',
-    }),
-    customer: string({
-      required_error: 'customer harus di isi',
-    }),
-    attn: string({
-      required_error: 'attn harus di isi',
-    }),
-    type: string({
-      required_error: 'type harus di isi',
-    }),
-    delivery: string({
-      required_error: 'delivery harus di isi',
-    }),
-    kurs: string({
-      required_error: 'kurs harus di isi',
-    }),
-    loading: string({
-      required_error: 'loading harus di isi',
-    }),
-    discharge: string({
-      required_error: 'discharge harus di isi',
-    }),
-    item_cost: string({
-      required_error: 'item_cost harus di isi',
-    }),
+export const updateQuotationSchema = z.object({
+  body: z.object({
+    sales: z.string(),
+    subject: z.string(),
+    customer: z.string(),
+    attn: z.string(),
+    type: z.string(),
+    delivery: z.string(),
+    kurs: z.string(),
+    loading: z.string(),
+    discharge: z.string(),
+    valheader: z.string(),
+    valfooter: z.string(),
+    item_cost: z.array(z.string()),
+    cost: z.string().nullish(),
   }),
 });
 
-export const updateStatusSchema = object({
-  body: object({
-    status: string({
-      required_error: 'newStatus harus di isi',
-    }),
+export const updateStatusSchema = z.object({
+  body: z.object({
+    status: z.string(),
   }),
 });
 
-export type createQuotationInput = TypeOf<typeof createQuotationSchema>['body'];
-export type UpdateQuotationInput = TypeOf<typeof updateQuotationSchema>['body'];
+export type createQuotationInput = z.infer<
+  typeof createQuotationSchema
+>['body'];
+export type UpdateQuotationInput = z.infer<
+  typeof updateQuotationSchema
+>['body'];
 export type UpdateStatusInput = TypeOf<typeof updateStatusSchema>['body'];

@@ -20,15 +20,15 @@ export const generateJobOrderCode = async (query: ParsedQs) => {
 
     //* generate code
     let id_u = 1;
+    const years = 23;
 
     if (lastData !== null) {
-      const lastId = parseInt(lastData.jo_no.split('-')[1]);
+      const lastId = parseInt(lastData.jo_no.slice(-4));
       id_u = lastId + 1;
     }
 
-    const idString = id_u.toString().padStart(5, '0');
-    const prefix = '';
-    const jo_no = `JO-${prefix}${idString}`;
+    const idString = id_u.toString().padStart(4, '0');
+    const jo_no = `JO-${years}${idString}`;
 
     return jo_no;
   } catch (error) {

@@ -40,12 +40,6 @@ export const updateJobOrderSchema = object({
     vessel: string({
       required_error: 'vessel harus di isi',
     }),
-    loading: string({
-      required_error: 'loading harus di isi',
-    }),
-    discharge: string({
-      required_error: 'discharge harus di isi',
-    }),
     gross_weight: string({
       required_error: 'gross_weight harus di isi',
     }),

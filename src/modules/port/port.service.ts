@@ -20,15 +20,15 @@ export const generatePortCode = async (query: ParsedQs) => {
 
     //* generate code
     let id_u = 1;
+    const years = 23;
 
     if (lastData !== null) {
-      const lastId = parseInt(lastData.port_code.split('-')[1]);
+      const lastId = parseInt(lastData.port_code.slice(-4));
       id_u = lastId + 1;
     }
 
-    const idString = id_u.toString().padStart(5, '0');
-    const prefix = '';
-    const port_code = `PORT-${prefix}${idString}`;
+    const idString = id_u.toString().padStart(4, '0');
+    const port_code = `PORT-${years}${idString}`;
 
     return port_code;
   } catch (error) {

@@ -6,6 +6,8 @@ import {
   UpdateStatusInput,
 } from './quotation.shecma';
 import { ParsedQs } from 'qs';
+import { HttpException } from '../../exceptions';
+import { Request } from 'express';
 
 //! Generate kode Quotation No
 export const generateQuotationCode = async (query: ParsedQs) => {
@@ -24,15 +26,15 @@ export const generateQuotationCode = async (query: ParsedQs) => {
 
     //* generate code
     let id_u = 1;
+    const years = 23;
 
     if (lastData !== null) {
-      const lastId = parseInt(lastData.quo_no.split('-')[1]);
+      const lastId = parseInt(lastData.quo_no.slice(-4));
       id_u = lastId + 1;
     }
 
-    const idString = id_u.toString().padStart(5, '0');
-    const prefix = '';
-    const quo_no = `QUO-${prefix}${idString}`;
+    const idString = id_u.toString().padStart(4, '0');
+    const quo_no = `QUO-${years}${idString}`;
 
     return quo_no;
   } catch (error) {
@@ -67,7 +69,7 @@ export const copyQuotationData = async (quo_no: string): Promise<any> => {
 
     const createdQuotation = await createQuotationn(copiedQuotationData);
 
-    console.log('API Response:', createdQuotation); // Tambahkan ini untuk debugging
+    console.log('API Response:', createdQuotation);
 
     return {
       success: true,
@@ -105,6 +107,9 @@ export async function getQuotation(quo_no: string) {
   return await prisma.quotation.findUnique({
     where: {
       quo_no,
+    },
+    include: {
+      cost: true,
     },
   });
 }
@@ -160,17 +165,80 @@ export async function updateQuotation(
   quo_no: string,
   data: UpdateQuotationInput
 ) {
-  return await prisma.quotation.update({
-    where: {
-      quo_no: quo_no,
-    },
-    data: data,
-  });
+  const {
+    sales,
+    subject,
+    attn,
+    delivery,
+    kurs,
+    loading,
+    discharge,
+    valheader,
+    valfooter,
+    cost,
+  } = data;
+
+  if (!cost) {
+    throw new Error('Cost is required');
+  }
+
+  try {
+    const quotation = await prisma.quotation.findFirst({
+      where: {
+        deletedAt: null,
+        quo_no,
+      },
+      include: {
+        cost: {
+          select: {
+            item_cost: true,
+          },
+        },
+      },
+    });
+
+    if (!quotation) {
+      throw new Error('Quotation not found');
+    }
+
+    const updatedCostArray = JSON.parse(cost);
+    const costWhereUniqueInputs = updatedCostArray.map((c: string) => ({
+      item_cost: c,
+    }));
+
+    const updatedQuotation = await prisma.quotation.update({
+      where: {
+        quo_no: quotation.quo_no,
+      },
+      data: {
+        sales,
+        subject,
+        attn,
+        delivery,
+        kurs,
+        loading,
+        discharge,
+        valheader,
+        valfooter,
+        cost: {
+          set: costWhereUniqueInputs,
+        },
+      },
+      include: {
+        cost: true,
+      },
+    });
+
+    return updatedQuotation;
+  } catch (error) {
+    console.error('Error updating quotation:', error);
+    throw new Error('Internal server error');
+  }
 }
 
 //! Hapus data quotation by id
 export async function deleteQuotation(quo_no: string) {
-  //* Start transaction
+  //  Start transaction
   return await prisma.$transaction(async (tx) => {
     await tx.quotation.deleteMany({
       where: {

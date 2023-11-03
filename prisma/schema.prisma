@@ -72,7 +72,7 @@ model Cost {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
-  Quotation Quotation[]
+  quotation Quotation[]
 }
 
 model Quotation {
@@ -86,13 +86,14 @@ model Quotation {
   kurs String?
   loading String?
   discharge String?
+  valheader String?
+  valfooter String?
   status StatusCheck? @default(InProgress)
 
   customerTab Customer? @relation(fields: [customer_code], references: [customer_code])
   customer_code String? @db.VarChar(255)
   
   cost Cost[]
-  item_cost String?     @db.VarChar(255)
 
   port Port?            @relation(fields: [port_code], references: [port_code])
   port_code String?     @db.VarChar(255)
@@ -102,8 +103,18 @@ model Quotation {
   deletedAt DateTime?
   JobOrder JobOrder[]
   JOC JOC[]
+  // costToQuotation CostToQuotation[] @relation("cost_to_quotation")
   @@map(name: "quotation")
 }
+
+// model CostToQuotation {
+//   A String
+//   B String
+
+//   @@id([A, B])
+  
+//   quotation Quotation @relation("cost_to_quotation", fields: [B], references: [quo_no])
+// }
 
 model JobOrder {
   jo_no String @id @default(uuid())
@@ -139,7 +150,7 @@ model JobOrder {
 
 model JOC {
   joc_no String @id @default(uuid())
-  type String
+  type String?
   no_mbl String
   agent String?
   status StatusCheck? @default(InProgress)
@@ -149,7 +160,6 @@ model JOC {
   discharge String
   etd String
   eta String
-  no_count String?
 
   quotation Quotation?   @relation(fields: [quo_no], references: [quo_no])
   quo_no String?         @db.VarChar(255)
@@ -163,6 +173,7 @@ model JOC {
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
 }
+
 
 enum MataUang {
   IDR

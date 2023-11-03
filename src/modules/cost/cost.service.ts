@@ -20,22 +20,21 @@ export const generateItemCost = async (query: ParsedQs) => {
 
     //* generate code
     let id_u = 1;
+    const years = 23;
 
     if (lastData !== null) {
-      const lastId = parseInt(lastData.item_cost.split('-')[1]);
+      const lastId = parseInt(lastData.item_cost.slice(-4));
       id_u = lastId + 1;
     }
 
-    const idString = id_u.toString().padStart(5, '0');
-    const prefix = '';
-    const item_cost = `COST-${prefix}${idString}`;
+    const idString = id_u.toString().padStart(4, '0');
+    const item_cost = `COST-${years}${idString}`;
 
     return item_cost;
   } catch (error) {
     throw error;
   }
 };
-
 //! Tambah data cost
 export async function createCost(data: Prisma.CostCreateInput): Promise<Cost> {
   try {

@@ -4,6 +4,7 @@ import { createCustomerInput, UpdateCustomerInput } from './customer.schema';
 import { ParsedQs } from 'qs';
 
 //! Generate kode customer code
+//! Generate kode Port
 export const generateCustomerCode = async (query: ParsedQs) => {
   try {
     //* get last data
@@ -20,15 +21,15 @@ export const generateCustomerCode = async (query: ParsedQs) => {
 
     //* generate code
     let id_u = 1;
+    const years = 23;
 
     if (lastData !== null) {
-      const lastId = parseInt(lastData.customer_code.split('-')[1]);
+      const lastId = parseInt(lastData.customer_code.slice(-4));
       id_u = lastId + 1;
     }
 
-    const idString = id_u.toString().padStart(5, '0');
-    const prefix = '';
-    const customer_code = `CTM-${prefix}${idString}`;
+    const idString = id_u.toString().padStart(4, '0');
+    const customer_code = `CTM-${years}${idString}`;
 
     return customer_code;
   } catch (error) {
