@@ -36,7 +36,7 @@ export const generatePortCode = async (query: ParsedQs) => {
   }
 };
 
-//! Tambah data Port
+//! Create data Port
 export async function createPort(data: Prisma.PortCreateInput): Promise<Port> {
   try {
     const port = await prisma.port.create({

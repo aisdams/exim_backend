@@ -10,9 +10,10 @@ import {
   updateCost,
   deleteAllCost,
   deleteCost,
+  createQuotationCost,
 } from './cost.service';
 
-//! Tambah Cost
+//! Create Cost
 export const createCostHandler = async (
   req: Request,
   res: Response,
@@ -37,6 +38,29 @@ export const createCostHandler = async (
     });
   } catch (err: any) {
     next(err);
+  }
+};
+
+//! Create Cost for Quotation
+export const createCostForQuotationHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const quo_no = req.params.quo_no;
+  const item_cost = req.body;
+
+  try {
+    const createdCost = await createQuotationCost(quo_no, item_cost);
+
+    return res
+      .status(201)
+      .json({ message: 'Cost created for the quotation', createdCost });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: 'Failed to create cost for the quotation' });
   }
 };
 

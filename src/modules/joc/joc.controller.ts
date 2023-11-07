@@ -12,7 +12,7 @@ import {
   deleteJOC,
 } from './joc.service';
 
-//! Tambah JOC
+//! Create JOC
 export const createJOCHandler = async (
   req: Request,
   res: Response,

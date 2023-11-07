@@ -1,6 +1,10 @@
 import { Prisma, Cost } from '@prisma/client';
 import prisma from '../../utils/prisma';
-import { createCostInput, UpdateCostInput } from './cost.schema';
+import {
+  createCostInput,
+  createCostQuoInput,
+  UpdateCostInput,
+} from './cost.schema';
 import { ParsedQs } from 'qs';
 
 //! Generate kode Cost
@@ -35,7 +39,7 @@ export const generateItemCost = async (query: ParsedQs) => {
     throw error;
   }
 };
-//! Tambah data cost
+//! Create data cost
 export async function createCost(data: Prisma.CostCreateInput): Promise<Cost> {
   try {
     const cost = await prisma.cost.create({
@@ -49,6 +53,27 @@ export async function createCost(data: Prisma.CostCreateInput): Promise<Cost> {
       throw new Error('Terjadi kesalahan saat membuat Cost.');
     }
   }
+}
+// Create Cost for quotation
+export async function createQuotationCost(
+  quo_no: string,
+  data: createCostQuoInput
+) {
+  const createdCost = await prisma.cost.create({
+    data: {
+      item_name: data.item_name,
+      qty: data.qty,
+      unit: data.unit,
+      price: data.price,
+      note: data.note,
+      quotation: {
+        connect: {
+          quo_no: quo_no,
+        },
+      },
+    },
+  });
+  return createdCost;
 }
 
 //! Get data cost by id
@@ -124,3 +149,24 @@ export async function deleteAllCost() {
     await tx.cost.deleteMany();
   });
 }
+
+// export const create = async (req: any, res: Response) => {
+//   const {
+//     item_name,
+//     qty,
+//     unit,
+//     price,
+//     note,
+//     quotation,
+//   } = req.body;
+
+//   const mappedQuotation = JSON.parse(quotation).map((quotation: any) => ({
+//     id: Number(quotation.quo_no),
+//   }));
+//   quotation: {
+//    connect: {
+//           name: quotation.quo_no,
+//         },
+//       },
+//   })
+// );

@@ -12,7 +12,7 @@ import {
   deleteCustomer,
 } from './customer.service';
 
-//! Tambah Customer
+//! Create Customer
 export const createCustomerHandler = async (
   req: Request,
   res: Response,

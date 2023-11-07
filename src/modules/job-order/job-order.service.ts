@@ -36,7 +36,7 @@ export const generateJobOrderCode = async (query: ParsedQs) => {
   }
 };
 
-//! Tambah data quotation
+//! Create data quotation
 export async function createJobOrder(
   data: Prisma.JobOrderCreateInput
 ): Promise<JobOrder> {

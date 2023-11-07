@@ -36,7 +36,7 @@ export const generateJOCCode = async (query: ParsedQs) => {
   }
 };
 
-//! Tambah data JOC
+//! Create data JOC
 // export async function createJOC(data: Prisma.JOCCreateInput): Promise<JOC> {
 //   try {
 //     const JOC = await prisma.jOC.create({

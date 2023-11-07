@@ -11,9 +11,12 @@ import {
   deleteAllQuotation,
   deleteQuotation,
   copyQuotationData,
+  updateQuotationStatus,
 } from './quotation.service';
-import { UpdateQuotationInput, updateQuotationSchema } from './quotation.shecma';
-
+import {
+  UpdateQuotationInput,
+  updateQuotationSchema,
+} from './quotation.shecma';
 
 // ! Generate Quotation Code
 export const getQuotationsHandler = async (
@@ -44,14 +47,13 @@ export const updateStatusHandler = async (
   try {
     const quo_no = req.params.quo_no;
     const data = req.body;
-    // Cari Quotation berdasarkan quo_no
     const quotation: any | null = await getQuotation(req.params.quo_no);
 
     if (!quotation) {
       return res.status(404).json({ error: 'Quotation not found' });
     }
 
-    const updatedQuotation = await updateQuotation(quo_no, data);
+    const updatedQuotation = await updateQuotationStatus(quo_no, data);
     return res
       .status(200)
       .json({ success: true, message: 'Status updated successfully' });
@@ -61,7 +63,7 @@ export const updateStatusHandler = async (
   }
 };
 
-//! Tambah Quotation
+//! Create Quotation
 export const createQuotationHandler = async (
   req: Request,
   res: Response,
@@ -189,7 +191,20 @@ export const getQuotationHandler = async (
 
 // Update Quotation by Id
 export const updateQuotationHandler = async (req: Request, res: Response) => {
-  const { sales, subject, customer, attn, type, delivery, kurs, loading, discharge, valheader, valfooter, item_cost, cost } = req.body;
+  const {
+    sales,
+    subject,
+    customer,
+    attn,
+    type,
+    delivery,
+    kurs,
+    loading,
+    discharge,
+    valheader,
+    valfooter,
+    cost,
+  } = req.body;
   const { quo_no } = req.params;
 
   if (!quo_no) {
@@ -209,11 +224,13 @@ export const updateQuotationHandler = async (req: Request, res: Response) => {
       discharge,
       valheader,
       valfooter,
-      item_cost,
       cost,
     };
 
-    const updatedQuotation = await updateQuotation(quo_no, updatedQuotationData);
+    const updatedQuotation = await updateQuotation(
+      quo_no,
+      updatedQuotationData
+    );
 
     res.status(200).json(updatedQuotation);
   } catch (error) {

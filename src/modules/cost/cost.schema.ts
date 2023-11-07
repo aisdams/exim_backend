@@ -34,5 +34,26 @@ export const updateCostSchema = object({
   }),
 });
 
+export const createCostQuoSchema = object({
+  body: object({
+    item_name: string({
+      required_error: 'item_name harus di isi!',
+    }),
+    qty: string({
+      required_error: 'qty harus di isi!',
+    }),
+    unit: string({
+      required_error: 'unit harus di isi!',
+    }),
+    price: string({
+      required_error: 'price harus di isi!',
+    }),
+    note: string({
+      required_error: 'note harus di isi',
+    }),
+  }),
+});
+
 export type createCostInput = TypeOf<typeof createCostSchema>['body'];
+export type createCostQuoInput = TypeOf<typeof createCostQuoSchema>['body'];
 export type UpdateCostInput = TypeOf<typeof updateCostSchema>['body'];

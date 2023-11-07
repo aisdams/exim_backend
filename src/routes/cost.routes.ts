@@ -6,8 +6,10 @@ import {
   updateCostHandler,
   deleteCostHandler,
   deleteCostsHandler,
+  createCostForQuotationHandler,
 } from '../../src/modules/cost/cost.controller';
 import {
+  createCostQuoSchema,
   createCostSchema,
   updateCostSchema,
 } from '../modules/cost/cost.schema';
@@ -20,6 +22,11 @@ const upload = multer();
 router.get('/', getCostsHandler);
 router.get('/:item_cost', getCostHandler);
 router.post('/', validate(createCostSchema), createCostHandler);
+router.post(
+  '/:quo_no',
+  validate(createCostQuoSchema),
+  createCostForQuotationHandler
+);
 router.put(
   '/:item_cost',
 

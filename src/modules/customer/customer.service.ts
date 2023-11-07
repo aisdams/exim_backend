@@ -37,7 +37,7 @@ export const generateCustomerCode = async (query: ParsedQs) => {
   }
 };
 
-//! Tambah data
+//! Create data
 export async function createCustomer(
   data: Prisma.CustomerCreateInput
 ): Promise<Customer> {

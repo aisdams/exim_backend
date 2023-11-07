@@ -1,4 +1,4 @@
-import { Prisma, Quotation } from '@prisma/client';
+import { Prisma, Quotation, StatusCheck } from '@prisma/client';
 import prisma from '../../utils/prisma';
 import {
   createQuotationInput,
@@ -84,7 +84,7 @@ export const copyQuotationData = async (quo_no: string): Promise<any> => {
   }
 };
 
-//! Tambah data quotation
+//! Create data quotation
 export async function createQuotationn(
   data: Prisma.QuotationCreateInput
 ): Promise<Quotation> {
@@ -234,6 +234,29 @@ export async function updateQuotation(
     console.error('Error updating quotation:', error);
     throw new Error('Internal server error');
   }
+}
+
+// Update Status
+export async function updateQuotationStatus(
+  quo_no: string,
+  data: UpdateStatusInput
+) {
+  if (
+    data.status !== StatusCheck.Executed &&
+    data.status !== StatusCheck.InProgress &&
+    data.status !== StatusCheck.Cancel
+  ) {
+    throw new Error('Invalid status value');
+  }
+
+  return await prisma.quotation.update({
+    where: {
+      quo_no: quo_no,
+    },
+    data: {
+      status: data.status,
+    },
+  });
 }
 
 //! Hapus data quotation by id

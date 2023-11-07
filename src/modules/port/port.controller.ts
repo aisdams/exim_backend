@@ -12,7 +12,7 @@ import {
   deletePort,
 } from './port.service';
 
-//! Tambah Port
+//! Create Port
 export const createPortHandler = async (
   req: Request,
   res: Response,

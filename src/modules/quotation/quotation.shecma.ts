@@ -38,14 +38,13 @@ export const updateQuotationSchema = z.object({
     discharge: z.string(),
     valheader: z.string(),
     valfooter: z.string(),
-    item_cost: z.array(z.string()),
     cost: z.string().nullish(),
   }),
 });
 
-export const updateStatusSchema = z.object({
-  body: z.object({
-    status: z.string(),
+export const updateStatusSchema = object({
+  body: object({
+    status: string(),
   }),
 });
 

@@ -12,7 +12,7 @@ import {
   deleteJobOrder,
 } from './job-order.service';
 
-//! Tambah Job Order
+//! Create Job Order
 export const createJobOrderHandler = async (
   req: Request,
   res: Response,
