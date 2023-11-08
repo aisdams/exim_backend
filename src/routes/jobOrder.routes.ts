@@ -6,8 +6,10 @@ import {
   updateJobOrderHandler,
   deleteJobOrderHandler,
   deleteJobOrdersHandler,
+  createJOForJOCHandler,
 } from '../../src/modules/job-order/job-order.controller';
 import {
+  createJOtoJOCSchema,
   createJobOrderSchema,
   updateJobOrderSchema,
 } from '../modules/job-order/job-order.schema';
@@ -19,6 +21,7 @@ const upload = multer();
 router.get('/', getJobOrdersHandler);
 router.get('/:jo_no', getJobOrderHandler);
 router.post('/', validate(createJobOrderSchema), createJobOrderHandler);
+router.post('/:quo_no', validate(createJOtoJOCSchema), createJOForJOCHandler);
 router.put(
   '/:jo_no',
 

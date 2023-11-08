@@ -10,6 +10,7 @@ import {
   updateJobOrder,
   deleteAllJobOrder,
   deleteJobOrder,
+  createJOCforJO,
 } from './job-order.service';
 
 //! Create Job Order
@@ -37,6 +38,36 @@ export const createJobOrderHandler = async (
     });
   } catch (err: any) {
     next(err);
+  }
+};
+
+//  Create Job Order for JOC
+export const createJOForJOCHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let data = {
+    ...req.body,
+  };
+
+  const query = {};
+
+  const joc_no = req.params.joc_no;
+  const jo_no = await generateJobOrderCode(query);
+  data.jo_no = jo_no;
+
+  try {
+    const createdJOC = await createJOCforJO(joc_no, data);
+
+    return res
+      .status(201)
+      .json({ message: 'Job Order created for the JOC', createdJOC });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: 'Failed to create Job Order for the JOC' });
   }
 };
 

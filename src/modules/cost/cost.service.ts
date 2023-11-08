@@ -39,6 +39,7 @@ export const generateItemCost = async (query: ParsedQs) => {
     throw error;
   }
 };
+
 //! Create data cost
 export async function createCost(data: Prisma.CostCreateInput): Promise<Cost> {
   try {
@@ -54,6 +55,7 @@ export async function createCost(data: Prisma.CostCreateInput): Promise<Cost> {
     }
   }
 }
+
 // Create Cost for quotation
 export async function createQuotationCost(
   quo_no: string,

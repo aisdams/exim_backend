@@ -1,6 +1,10 @@
 import { JobOrder, Prisma, Quotation } from '@prisma/client';
 import prisma from '../../utils/prisma';
-import { createJobOrderInput, UpdateJobOrderInput } from './job-order.schema';
+import {
+  createJobOrderInput,
+  createJOtoJOCInput,
+  UpdateJobOrderInput,
+} from './job-order.schema';
 import { ParsedQs } from 'qs';
 
 //! Generate kode Job Order
@@ -52,6 +56,25 @@ export async function createJobOrder(
       throw new Error('Terjadi kesalahan saat membuat JobOrder.');
     }
   }
+}
+
+// Create data JO for JOC
+export async function createJOCforJO(joc_no: string, data: createJOtoJOCInput) {
+  const createdCost = await prisma.jobOrder.create({
+    data: {
+      shipper: data.shipper,
+      consignee: data.consignee,
+      qty: data.qty,
+      vessel: data.vessel,
+      gross_weight: data.gross_weight,
+      joc: {
+        connect: {
+          joc_no: joc_no,
+        },
+      },
+    },
+  });
+  return createdCost;
 }
 
 //! Get data jobOrder by id

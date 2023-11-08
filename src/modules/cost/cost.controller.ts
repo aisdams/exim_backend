@@ -47,11 +47,18 @@ export const createCostForQuotationHandler = async (
   res: Response,
   next: NextFunction
 ) => {
+  let data = {
+    ...req.body,
+  };
+
+  const query = {};
+
   const quo_no = req.params.quo_no;
-  const item_cost = req.body;
+  const item_cost = await generateItemCost(query);
+  data.item_cost = item_cost;
 
   try {
-    const createdCost = await createQuotationCost(quo_no, item_cost);
+    const createdCost = await createQuotationCost(quo_no, data);
 
     return res
       .status(201)

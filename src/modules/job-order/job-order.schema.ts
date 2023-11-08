@@ -52,5 +52,29 @@ export const updateJobOrderSchema = object({
   }),
 });
 
+export const createJOtoJOCSchema = object({
+  body: object({
+    shipper: string({
+      required_error: 'shipper harus di isi',
+    }),
+    consignee: string({
+      required_error: 'consignee harus di isi',
+    }),
+    qty: string({
+      required_error: 'qty harus di isi',
+    }),
+    vessel: string({
+      required_error: 'vessel harus di isi',
+    }),
+    gross_weight: string({
+      required_error: 'gross_weight harus di isi',
+    }),
+    volume: string({
+      required_error: 'volume harus di isi',
+    }),
+  }),
+});
+
 export type createJobOrderInput = TypeOf<typeof createJobOrderSchema>['body'];
+export type createJOtoJOCInput = TypeOf<typeof createJOtoJOCSchema>['body'];
 export type UpdateJobOrderInput = TypeOf<typeof updateJobOrderSchema>['body'];

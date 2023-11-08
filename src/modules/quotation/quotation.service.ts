@@ -165,77 +165,13 @@ export async function updateQuotation(
   quo_no: string,
   data: UpdateQuotationInput
 ) {
-  const {
-    sales,
-    subject,
-    attn,
-    delivery,
-    kurs,
-    loading,
-    discharge,
-    valheader,
-    valfooter,
-    cost,
-  } = data;
-
-  if (!cost) {
-    throw new Error('Cost is required');
-  }
-
-  try {
-    const quotation = await prisma.quotation.findFirst({
-      where: {
-        deletedAt: null,
-        quo_no,
-      },
-      include: {
-        cost: {
-          select: {
-            item_cost: true,
-          },
-        },
-      },
-    });
-
-    if (!quotation) {
-      throw new Error('Quotation not found');
-    }
-
-    const updatedCostArray = JSON.parse(cost);
-    const costWhereUniqueInputs = updatedCostArray.map((c: string) => ({
-      item_cost: c,
-    }));
-
-    const updatedQuotation = await prisma.quotation.update({
-      where: {
-        quo_no: quotation.quo_no,
-      },
-      data: {
-        sales,
-        subject,
-        attn,
-        delivery,
-        kurs,
-        loading,
-        discharge,
-        valheader,
-        valfooter,
-        cost: {
-          set: costWhereUniqueInputs,
-        },
-      },
-      include: {
-        cost: true,
-      },
-    });
-
-    return updatedQuotation;
-  } catch (error) {
-    console.error('Error updating quotation:', error);
-    throw new Error('Internal server error');
-  }
+  return await prisma.quotation.update({
+    where: {
+      quo_no: quo_no,
+    },
+    data: data,
+  });
 }
-
 // Update Status
 export async function updateQuotationStatus(
   quo_no: string,

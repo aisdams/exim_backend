@@ -118,7 +118,7 @@ model Quotation {
 
 model JobOrder {
   jo_no String @id @default(uuid())
-  jo_date String
+  jo_date String?
   shipper String?
   consignee String?
   qty String?
@@ -135,8 +135,8 @@ model JobOrder {
   name_of_goods String?
   createdBy String @default("ADMIN")
 
-  quotation Quotation @relation(fields: [quo_no], references: [quo_no])
-  quo_no String @db.VarChar(255)
+  quotation Quotation? @relation(fields: [quo_no], references: [quo_no])
+  quo_no String? @db.VarChar(255)
   customer Customer? @relation(fields: [customer_code], references: [customer_code])
   customer_code String? @db.VarChar(255)
   port Port? @relation(fields: [port_code], references: [port_code])
@@ -145,7 +145,7 @@ model JobOrder {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
-  JOC JOC[]
+  joc JOC[]
 }
 
 model JOC {
@@ -163,8 +163,7 @@ model JOC {
 
   quotation Quotation?   @relation(fields: [quo_no], references: [quo_no])
   quo_no String?         @db.VarChar(255)
-  jobOrder JobOrder?     @relation(fields: [jo_no], references: [jo_no])
-  jo_no String?          @db.VarChar(255)
+  jobOrder JobOrder[]
   customer Customer?     @relation(fields: [customer_code], references: [customer_code])
   customer_code String? @db.VarChar(255)
   

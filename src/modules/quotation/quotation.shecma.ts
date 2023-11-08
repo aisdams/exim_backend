@@ -38,7 +38,6 @@ export const updateQuotationSchema = z.object({
     discharge: z.string(),
     valheader: z.string(),
     valfooter: z.string(),
-    cost: z.string().nullish(),
   }),
 });
 
