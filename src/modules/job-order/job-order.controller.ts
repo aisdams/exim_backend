@@ -43,7 +43,7 @@ export const createJobOrderHandler = async (
 
 //  Create Job Order for JOC
 export const createJOForJOCHandler = async (
-  req: Request,
+  req: Request<{ joc_no: string }>,
   res: Response,
   next: NextFunction
 ) => {

@@ -151,24 +151,3 @@ export async function deleteAllCost() {
     await tx.cost.deleteMany();
   });
 }
-
-// export const create = async (req: any, res: Response) => {
-//   const {
-//     item_name,
-//     qty,
-//     unit,
-//     price,
-//     note,
-//     quotation,
-//   } = req.body;
-
-//   const mappedQuotation = JSON.parse(quotation).map((quotation: any) => ({
-//     id: Number(quotation.quo_no),
-//   }));
-//   quotation: {
-//    connect: {
-//           name: quotation.quo_no,
-//         },
-//       },
-//   })
-// );

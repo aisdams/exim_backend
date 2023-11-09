@@ -36,22 +36,6 @@ export const generateJOCCode = async (query: ParsedQs) => {
   }
 };
 
-//! Create data JOC
-// export async function createJOC(data: Prisma.JOCCreateInput): Promise<JOC> {
-//   try {
-//     const JOC = await prisma.jOC.create({
-//       data,
-//     });
-//     return JOC;
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       throw new Error(`Gagal membuat JOC: ${error.message}`);
-//     } else {
-//       throw new Error('Terjadi kesalahan saat membuat JOC.');
-//     }
-//   }
-// }
-
 export async function createJOC(data: createJOCInput) {
   return await prisma.jOC.create({
     data,
@@ -62,6 +46,9 @@ export async function getJOC(joc_no: string) {
   return await prisma.jOC.findUnique({
     where: {
       joc_no,
+    },
+    include: {
+      jo: true,
     },
   });
 }

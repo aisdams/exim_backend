@@ -21,7 +21,7 @@ const upload = multer();
 router.get('/', getJobOrdersHandler);
 router.get('/:jo_no', getJobOrderHandler);
 router.post('/', validate(createJobOrderSchema), createJobOrderHandler);
-router.post('/:quo_no', validate(createJOtoJOCSchema), createJOForJOCHandler);
+router.post('/:joc_no', validate(createJOtoJOCSchema), createJOForJOCHandler);
 router.put(
   '/:jo_no',
 

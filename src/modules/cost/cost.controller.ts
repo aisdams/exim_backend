@@ -43,7 +43,7 @@ export const createCostHandler = async (
 
 //! Create Cost for Quotation
 export const createCostForQuotationHandler = async (
-  req: Request,
+  req: Request<{ quo_no: string }>,
   res: Response,
   next: NextFunction
 ) => {
