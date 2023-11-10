@@ -50,9 +50,6 @@ export const updateJOCSchema = object({
     no_container: string({
       required_error: 'no_container harus di isi',
     }),
-    jo_no: string({
-      required_error: 'jo_no harus di isi',
-    }),
   }),
 });
 

@@ -1,4 +1,4 @@
-import { Jo, Prisma, Quotation } from '@prisma/client';
+import { JobOrder, Prisma, Quotation } from '@prisma/client';
 import prisma from '../../utils/prisma';
 import {
   createJobOrderInput,
@@ -11,7 +11,7 @@ import { ParsedQs } from 'qs';
 export const generateJobOrderCode = async (query: ParsedQs) => {
   try {
     //* get last data
-    const lastData = await prisma.jo.findFirst({
+    const lastData = await prisma.jobOrder.findFirst({
       select: {
         jo_no: true,
       },
@@ -41,9 +41,11 @@ export const generateJobOrderCode = async (query: ParsedQs) => {
 };
 
 //! Create data quotation
-export async function createJobOrder(data: Prisma.JoCreateInput): Promise<Jo> {
+export async function createJobOrder(
+  data: Prisma.JobOrderCreateInput
+): Promise<JobOrder> {
   try {
-    const jobOrder = await prisma.jo.create({
+    const jobOrder = await prisma.jobOrder.create({
       data,
     });
     return jobOrder;
@@ -58,13 +60,18 @@ export async function createJobOrder(data: Prisma.JoCreateInput): Promise<Jo> {
 
 // Create data JO for JOC
 export async function createJOCforJO(joc_no: string, data: createJOtoJOCInput) {
-  const createdCost = await prisma.jo.create({
+  const query = {};
+  const jo_no = await generateJobOrderCode(query);
+  const createdCost = await prisma.jobOrder.create({
     data: {
+      jo_no: jo_no,
       shipper: data.shipper,
       consignee: data.consignee,
       qty: data.qty,
       vessel: data.vessel,
       gross_weight: data.gross_weight,
+      customer_code: data.customer_code,
+      quo_no: data.quo_no,
       joc: {
         connect: {
           joc_no: joc_no,
@@ -77,7 +84,7 @@ export async function createJOCforJO(joc_no: string, data: createJOtoJOCInput) {
 
 //! Get data jobOrder by id
 export async function getJobOrder(jo_no: string) {
-  return await prisma.jo.findUnique({
+  return await prisma.jobOrder.findUnique({
     where: {
       jo_no,
     },
@@ -95,13 +102,13 @@ export async function getJobOrders(query: any) {
   const limit = Number(query.limit) || 10;
   const offset = page * limit - limit;
 
-  const data = await prisma.jo.findMany({
+  const data = await prisma.jobOrder.findMany({
     where,
     skip: offset,
     take: limit,
   });
 
-  const pagination = await prisma.jo.count({
+  const pagination = await prisma.jobOrder.count({
     where,
   });
 
@@ -119,7 +126,7 @@ export async function getJobOrders(query: any) {
 
 //! Update data jobOrder by Primary Key
 export async function updateJobOrder(jo_no: string, data: UpdateJobOrderInput) {
-  return await prisma.jo.update({
+  return await prisma.jobOrder.update({
     where: {
       jo_no: jo_no,
     },
@@ -130,7 +137,7 @@ export async function updateJobOrder(jo_no: string, data: UpdateJobOrderInput) {
 //! Hapus data jobOrder by id
 export async function deleteJobOrder(jo_no: string) {
   return await prisma.$transaction(async (tx) => {
-    await tx.jo.deleteMany({
+    await tx.jobOrder.deleteMany({
       where: {
         jo_no: jo_no,
       },
@@ -141,6 +148,6 @@ export async function deleteJobOrder(jo_no: string) {
 //! Hapus all data jobOrder
 export async function deleteAllJobOrder() {
   return await prisma.$transaction(async (tx) => {
-    await tx.jo.deleteMany();
+    await tx.jobOrder.deleteMany();
   });
 }

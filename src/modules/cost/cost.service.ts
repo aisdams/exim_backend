@@ -61,8 +61,11 @@ export async function createQuotationCost(
   quo_no: string,
   data: createCostQuoInput
 ) {
+  const query = {};
+  const item_cost = await generateItemCost(query);
   const createdCost = await prisma.cost.create({
     data: {
+      item_cost: item_cost,
       item_name: data.item_name,
       qty: data.qty,
       unit: data.unit,

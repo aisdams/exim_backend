@@ -43,21 +43,16 @@ export const createCostHandler = async (
 
 //! Create Cost for Quotation
 export const createCostForQuotationHandler = async (
-  req: Request<{ quo_no: string }>,
+  req: Request<{ quo_no: string; item_cost: string }>,
   res: Response,
   next: NextFunction
 ) => {
-  let data = {
-    ...req.body,
-  };
-
-  const query = {};
-
-  const quo_no = req.params.quo_no;
-  const item_cost = await generateItemCost(query);
-  data.item_cost = item_cost;
-
   try {
+    let data = {
+      ...req.body,
+    };
+
+    const quo_no = req.params.quo_no;
     const createdCost = await createQuotationCost(quo_no, data);
 
     return res

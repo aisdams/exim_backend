@@ -82,7 +82,7 @@ CREATE TABLE `quotation` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Jo` (
+CREATE TABLE `JobOrder` (
     `jo_no` VARCHAR(191) NOT NULL,
     `jo_date` VARCHAR(191) NULL,
     `shipper` VARCHAR(191) NULL,
@@ -142,12 +142,12 @@ CREATE TABLE `_CostToQuotation` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `_JOCToJo` (
+CREATE TABLE `_JOCToJobOrder` (
     `A` VARCHAR(191) NOT NULL,
     `B` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `_JOCToJo_AB_unique`(`A`, `B`),
-    INDEX `_JOCToJo_B_index`(`B`)
+    UNIQUE INDEX `_JOCToJobOrder_AB_unique`(`A`, `B`),
+    INDEX `_JOCToJobOrder_B_index`(`B`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
@@ -157,13 +157,13 @@ ALTER TABLE `quotation` ADD CONSTRAINT `quotation_customer_code_fkey` FOREIGN KE
 ALTER TABLE `quotation` ADD CONSTRAINT `quotation_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Jo` ADD CONSTRAINT `Jo_quo_no_fkey` FOREIGN KEY (`quo_no`) REFERENCES `quotation`(`quo_no`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_quo_no_fkey` FOREIGN KEY (`quo_no`) REFERENCES `quotation`(`quo_no`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Jo` ADD CONSTRAINT `Jo_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_customer_code_fkey` FOREIGN KEY (`customer_code`) REFERENCES `customer`(`customer_code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Jo` ADD CONSTRAINT `Jo_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `JobOrder` ADD CONSTRAINT `JobOrder_port_code_fkey` FOREIGN KEY (`port_code`) REFERENCES `port`(`port_code`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `JOC` ADD CONSTRAINT `JOC_quo_no_fkey` FOREIGN KEY (`quo_no`) REFERENCES `quotation`(`quo_no`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -178,7 +178,7 @@ ALTER TABLE `_CostToQuotation` ADD CONSTRAINT `_CostToQuotation_A_fkey` FOREIGN 
 ALTER TABLE `_CostToQuotation` ADD CONSTRAINT `_CostToQuotation_B_fkey` FOREIGN KEY (`B`) REFERENCES `quotation`(`quo_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_JOCToJo` ADD CONSTRAINT `_JOCToJo_A_fkey` FOREIGN KEY (`A`) REFERENCES `JOC`(`joc_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_JOCToJobOrder` ADD CONSTRAINT `_JOCToJobOrder_A_fkey` FOREIGN KEY (`A`) REFERENCES `JOC`(`joc_no`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_JOCToJo` ADD CONSTRAINT `_JOCToJo_B_fkey` FOREIGN KEY (`B`) REFERENCES `Jo`(`jo_no`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_JOCToJobOrder` ADD CONSTRAINT `_JOCToJobOrder_B_fkey` FOREIGN KEY (`B`) REFERENCES `JobOrder`(`jo_no`) ON DELETE CASCADE ON UPDATE CASCADE;

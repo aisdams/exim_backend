@@ -40,7 +40,7 @@ export const createJOCHandler = async (
   }
 };
 
-//! Get JOC
+//! Get JOC By id
 export const getJOCHandler = async (
   req: Request,
   res: Response,

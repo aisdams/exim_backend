@@ -48,7 +48,7 @@ export async function getJOC(joc_no: string) {
       joc_no,
     },
     include: {
-      jo: true,
+      joborder: true,
     },
   });
 }

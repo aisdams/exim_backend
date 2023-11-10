@@ -19,38 +19,23 @@ export const createCostSchema = object({
 
 export const updateCostSchema = object({
   body: object({
-    item_name: string({
-      required_error: 'item_name harus di isi!',
-    }),
-    qty: string({
-      required_error: 'qty harus di isi!',
-    }),
-    unit: string({
-      required_error: 'unit harus di isi!',
-    }),
+    item_name: string(),
+    qty: string(),
+    unit: string(),
     note: string({
       required_error: 'note harus di isi',
     }),
   }),
 });
 
-export const createCostQuoSchema = object({
-  body: object({
-    item_name: string({
-      required_error: 'item_name harus di isi!',
-    }),
-    qty: string({
-      required_error: 'qty harus di isi!',
-    }),
-    unit: string({
-      required_error: 'unit harus di isi!',
-    }),
-    price: string({
-      required_error: 'price harus di isi!',
-    }),
-    note: string({
-      required_error: 'note harus di isi',
-    }),
+export const createCostQuoSchema = z.object({
+  body: z.object({
+    item_cost: z.string().nullish(),
+    item_name: z.string(),
+    qty: z.string(),
+    unit: z.string(),
+    price: z.string(),
+    note: z.string(),
   }),
 });
 

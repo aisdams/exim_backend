@@ -39,7 +39,7 @@ model Customer {
   deletedAt DateTime?
 
   Quotation Quotation[]
-  jo Jo[]
+  joborder JobOrder[]
   JOC JOC[]
   @@map(name: "customer")
   
@@ -55,7 +55,7 @@ model Port {
   deletedAt DateTime?
 
   Quotation Quotation[]
-  jo Jo[]
+  joborder JobOrder[]
   @@map(name: "port")
   
 }
@@ -101,13 +101,12 @@ model Quotation {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
   deletedAt DateTime?
-  jo Jo[]
+  joborder JobOrder[]
   JOC JOC[]
-  // costToQuotation CostToQuotation[] @relation("cost_to_quotation")
   @@map(name: "quotation")
 }
 
-model Jo {
+model JobOrder {
   jo_no String @id @default(uuid())
   jo_date String?
   shipper String?
@@ -154,7 +153,7 @@ model JOC {
 
   quotation Quotation?   @relation(fields: [quo_no], references: [quo_no])
   quo_no String?         @db.VarChar(255)
-  jo Jo[]
+  joborder JobOrder[]
   customer Customer?     @relation(fields: [customer_code], references: [customer_code])
   customer_code String? @db.VarChar(255)
   
