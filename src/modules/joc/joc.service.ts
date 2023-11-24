@@ -61,7 +61,7 @@ export async function getJOCS(query: any) {
   };
 
   const page = Number(query.page) || 1;
-  const limit = Number(query.limit) || 10;
+  const limit = Number(query.limit) || 15;
   const offset = page * limit - limit;
 
   const data = await prisma.jOC.findMany({

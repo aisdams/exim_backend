@@ -35,7 +35,7 @@ export const createCostQuoSchema = z.object({
     qty: z.string(),
     unit: z.string(),
     price: z.string(),
-    note: z.string(),
+    note: z.string().nullish(),
   }),
 });
 
